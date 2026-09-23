@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>KATCHO — Multiplayer Social Deduction & Memory Game</title>
+  
+  <!-- PWA & Mobile Meta Tags -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#3867D6" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="KATCHO" />
+  <link rel="apple-touch-icon" href="/static/icons/icon-192.png" />
+  <link rel="icon" type="image/png" href="/static/icons/icon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+  <!-- APP CONTAINER -->
+  <div id="app" class="app-container">
+    
+    <!-- TOP HEADER -->
+    <header class="game-header">
+      <div class="brand-group">
+        <div class="brand-logo-wrap">
+          <h1 class="brand-title">KATCHO</h1>
+          <span class="brand-subtitle">Created by KABIR VYAS</span>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <!-- Room badge (hidden on landing) -->
+        <div id="roomBadge" class="room-badge hidden" title="Click to copy room link">
+          <span class="room-label">ROOM:</span>
+          <span id="roomCodeText" class="room-code">----</span>
+          <span class="copy-icon">📋</span>
+        </div>
+
+        <!-- Connection Status -->
+        <div id="connectionStatus" class="status-indicator online" title="Connection Status">
+          <span class="status-dot"></span>
+          <span id="statusText" class="status-label">Online</span>
+        </div>
+
+        <!-- Download App Icon -->
+        <button id="btnHeaderInstallApp" class="btn-icon btn-install-icon" title="Download / Install App" aria-label="Download App">
+          📥
+        </button>
+
+        <!-- Action Icons -->
+        <button id="btnLanModal" class="btn-icon" title="LAN / Hotspot QR Code" aria-label="Hotspot QR">
+          📱
+        </button>
+        <button id="btnSoundToggle" class="btn-icon" title="Toggle Sound" aria-label="Toggle Sound">
+          🔊
+        </button>
+        <button id="btnRulesModal" class="btn-icon" title="How to Play" aria-label="How to Play">
+          ❓
+        </button>
+        <button id="btnLeaveRoom" class="btn-icon btn-danger-icon hidden" title="Leave Room" aria-label="Leave Room">
+          🚪
+        </button>
+      </div>
+    </header>
+
+    <!-- NOTIFICATION TOAST CONTAINER -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- MAIN VIEW AREA -->
+    <main class="main-content">
+
+      <!-- ======================================================== -->
+      <!-- VIEW 1: JOIN / HOST LOBBY ENTRY SCREEN                  -->
+      <!-- ======================================================== -->
+      <section id="viewEntry" class="view-panel active">
+        <div class="card entry-card">
+          
+          <div class="entry-hero">
+            <div class="game-mascot">🕵️‍♂️💡</div>
+            <h2 class="entry-title">Secret Words. Sharp Memories. Clever Deducers.</h2>
+            <p class="entry-tagline">Submit secret words, memorize the flash sequence, and deduce who wrote what!</p>
+          </div>
+
+          <!-- DUAL OPTION HERO BANNER: PLAY ONLINE vs DOWNLOAD APP -->
+          <div class="play-choice-box">
+            <div class="choice-card choice-online active" id="cardChoicePlayOnline">
+              <div class="choice-icon">🌐</div>
+              <div class="choice-content">
+                <h4>Play Online Instantly</h4>
+                <p>No download required. Play right here in your browser.</p>
+              </div>
+              <span class="choice-tag">Active</span>
+            </div>
+
+            <div class="choice-card choice-download" id="cardChoiceDownloadApp">
+              <div class="choice-icon">📥</div>
+              <div class="choice-content">
+                <h4>Download / Install App</h4>
+                <p>1-tap install on Phone, Tablet, or PC. 100% Safe & Zero Permissions.</p>
+              </div>
+              <button class="btn btn-sm btn-outline-primary" id="btnQuickInstall">Install</button>
+            </div>
+          </div>
+
+          <!-- Name Input -->
+          <div class="form-group">
+            <label for="inputPlayerName" class="form-label">YOUR DISPLAY NAME</label>
+            <input 
+              type="text" 
+              id="inputPlayerName" 
+              class="form-control text-center bold-input" 
+              placeholder="e.g. Maverick, Sherlock" 
+              maxlength="18" 
+              autocomplete="nickname"
+            />
+          </div>
+
+          <!-- Entry Action Tabs -->
+          <div class="entry-actions-grid">
+            
+            <!-- Host Game Box -->
+            <div class="action-box">
+              <h3>Create Game</h3>
+              <p>Host a match for friends on your Wi-Fi hotspot or online.</p>
+              <button id="btnCreateRoom" class="btn btn-primary btn-block btn-lg pulse-glow">
+                🎮 Host New Room
+              </button>
+            </div>
+
+            <div class="divider-or"><span>OR</span></div>
+
+            <!-- Join Game Box -->
+            <div class="action-box">
+              <h3>Join Game</h3>
+              <p>Enter a 4-letter room code shared by your host.</p>
+              <div class="join-input-wrap">
+                <input 
+                  type="text" 
+                  id="inputRoomCode" 
+                  class="form-control text-center code-input" 
+                  placeholder="CODE" 
+                  maxlength="5"
+                />
+                <button id="btnJoinRoom" class="btn btn-success btn-block btn-lg">
+                  🚀 Join Room
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Local Hotspot Info Banner -->
+          <div class="lan-banner" id="lanBannerPreview">
+            <div class="lan-banner-icon">📡</div>
+            <div class="lan-banner-text">
+              <strong>Local Hotspot / LAN Play:</strong> Connect devices to the same Wi-Fi or mobile hotspot. 
+              <a href="#" id="linkOpenLanFromEntry">Show Hotspot QR Code & LAN IP</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- VIEW 2: ACTIVE GAME ROOM (PHASES 1 - 4)                 -->
+      <!-- ======================================================== -->
+      <section id="viewGame" class="view-panel hidden">
+
+        <!-- TOP DISPLAY AREA: PRESENTATION STAGE / BOARD -->
+        <div id="topStage" class="stage-container">
+
+          <!-- STAGE: PHASE 1 LOBBY SECRET WORD INPUT & READINESS -->
+          <div id="stagePhaseLobby" class="stage-subview">
+            <div class="stage-header-row">
+              <span class="stage-badge">Phase 1: Lobby</span>
+              <div class="mode-indicator-pill" id="modeIndicatorPill">
+                <span id="currentModeLabel">Mode: 1 Word per Player</span>
+                <button id="btnHostChangeMode" class="btn-text-edit hidden" title="Change Word Mode">⚙️ Change</button>
+              </div>
+              <span id="readyCountBadge" class="ready-badge">0 / 0 Ready</span>
+            </div>
+
+            <!-- Secret Word Input Section -->
+            <div id="secretWordSection" class="secret-word-box">
+              <div id="wordInputUnlocked">
+                <p class="instruction-text" id="wordInstructionText">
+                  🔒 <strong>Step 1:</strong> Enter your secret word. Keep it secret from everyone!
+                </p>
+
+                <!-- 1 Word Inputs Container -->
+                <div id="singleWordInputWrap" class="word-input-row">
+                  <input 
+                    type="text" 
+                    id="inputSecretWord1" 
+                    class="form-control secret-input uppercase-text" 
+                    placeholder="ENTER SECRET WORD..." 
+                    maxlength="22" 
+                    autocomplete="off"
+                  />
+                  <button id="btnSubmitSingleWord" class="btn btn-warning btn-submit-word">
+                    Lock Word 🔐
+                  </button>
+                </div>
+
+                <!-- 2 Words Inputs Container (for Double Word Mode) -->
+                <div id="doubleWordInputWrap" class="double-word-inputs hidden">
+                  <div class="word-field-group">
+                    <label class="sub-label">Word #1:</label>
+                    <input 
+                      type="text" 
+                      id="inputDoubleWord1" 
+                      class="form-control secret-input uppercase-text" 
+                      placeholder="FIRST SECRET WORD..." 
+                      maxlength="22" 
+                      autocomplete="off"
+                    />
+                  </div>
+                  <div class="word-field-group">
+                    <label class="sub-label">Word #2:</label>
+                    <input 
+                      type="text" 
+                      id="inputDoubleWord2" 
+                      class="form-control secret-input uppercase-text" 
+                      placeholder="SECOND SECRET WORD..." 
+                      maxlength="22" 
+                      autocomplete="off"
+                    />
+                  </div>
+                  <button id="btnSubmitDoubleWord" class="btn btn-warning btn-block btn-lg">
+                    Lock Both Words 🔐
+                  </button>
+                </div>
+
+                <small class="hint-text" id="wordHintText">Uppercase, trimmed automatically. Example: GALAXY, MANGO, PIRATE</small>
+              </div>
+
+              <!-- Locked Words Banner -->
+              <div id="wordInputLocked" class="word-locked-banner hidden">
+                <div class="locked-icon">✅</div>
+                <div class="locked-info">
+                  <span id="lockedCountLabel">Your Secret Word is Locked:</span>
+                  <div id="myLockedWordsList" class="locked-words-chips">
+                    <strong class="locked-word-text">******</strong>
+                  </div>
+                </div>
+                <button id="btnEditWord" class="btn btn-sm btn-outline">Change</button>
+              </div>
+            </div>
+
+            <!-- Host Start Control -->
+            <div id="hostLobbyControls" class="host-controls hidden">
+              <button id="btnStartReveal" class="btn btn-success btn-lg btn-start-reveal pulse-glow" disabled>
+                ✨ Begin Reveal Sequence
+              </button>
+              <div id="hostStartHelper" class="helper-note">Waiting for all players to submit words (Min 2 players)...</div>
+            </div>
+          </div>
+
+          <!-- STAGE: PHASE 2 WORD FLASH MODERATOR SEQUENCE -->
+          <div id="stagePhaseReveal" class="stage-subview hidden">
+            <div class="flash-header-row">
+              <span class="flash-title-tag">✨ Visual Moderator</span>
+              <span id="flashProgressText" class="flash-progress-tag">Loop 1/2 • Word 1/5</span>
+            </div>
+
+            <div class="flash-board">
+              <div id="flashWordDisplay" class="flash-word">GET READY!</div>
+              <div class="flash-progress-bar-wrap">
+                <div id="flashProgressBar" class="flash-progress-bar"></div>
+              </div>
+            </div>
+            <p class="flash-sub-hint">Memorize these words! Each word flashes twice in sequence.</p>
+          </div>
+
+          <!-- STAGE: PHASE 3 PUBLIC ANNOUNCEMENTS & GUESSING FEED -->
+          <div id="stagePhaseGuessing" class="stage-subview hidden">
+            <div class="stage-header-row">
+              <span class="stage-badge stage-badge-guessing">Phase 3: Guessing & Deduction</span>
+              <div id="activeTurnPill" class="turn-pill">
+                <span class="turn-dot pulse"></span>
+                <span id="activeTurnPlayerText">Waiting...</span>
+              </div>
+            </div>
+
+            <!-- Dynamic Announcement Billboard -->
+            <div id="announcementBillboard" class="announcement-board info">
+              <div id="announcementIcon" class="announcement-icon">🎯</div>
+              <div class="announcement-content">
+                <h3 id="announcementMain">Game in progress...</h3>
+                <p id="announcementSub">Active player is choosing an accusation.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- STAGE: PHASE 4 GAME OVER & VICTORY REVEAL TABLE -->
+          <div id="stagePhaseGameOver" class="stage-subview hidden">
+            <div class="game-over-banner">
+              <div class="trophy-anim">🏆</div>
+              <h2 id="winnerTitle" class="winner-title">VICTORY!</h2>
+              <p id="winnerSubtitle" class="winner-subtitle">Match concluded!</p>
+            </div>
+
+            <!-- Full Victory Reveal Table -->
+            <div class="reveal-table-container">
+              <h3 class="table-heading">📊 Official Match Summary & Reveal Table</h3>
+              <div class="table-responsive">
+                <table class="reveal-table">
+                  <thead>
+                    <tr>
+                      <th>Player</th>
+                      <th>Original Secret Words</th>
+                      <th>Status</th>
+                      <th>Correct Guesses</th>
+                      <th>Eliminated By</th>
+                    </tr>
+                  </thead>
+                  <tbody id="revealTableBody">
+                    <!-- Dynamic Rows populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="game-over-actions">
+              <button id="btnPlayAgain" class="btn btn-success btn-lg pulse-glow">
+                🔄 Play Again (Keep Names)
+              </button>
+            </div>
+          </div>
+
+        </div><!-- /#topStage -->
+
+
+        <!-- SECTION B: PLAYER ROSTER -->
+        <div class="section-roster">
+          <div class="section-title-row">
+            <h3 class="section-title">👥 Players in Room (<span id="rosterCount">0</span>)</h3>
+            <span class="roster-subhint">Distinct colors assigned</span>
+          </div>
+          <div id="playerRosterGrid" class="player-roster-grid">
+            <!-- Dynamic Player Cards -->
+          </div>
+        </div>
+
+
+        <!-- SECTION C: TURN ACTION CONTROLS (Only visible to active turn player) -->
+        <div id="turnActionContainer" class="turn-actions-card hidden">
+          <div class="turn-action-header">
+            <div class="turn-star-icon">⭐</div>
+            <div>
+              <h3 class="turn-action-title">IT'S YOUR TURN!</h3>
+              <p class="turn-action-subtitle">Accuse a player of their secret word, pass turn, or call a draw.</p>
+            </div>
+          </div>
+
+          <div class="turn-action-form">
+            <div class="form-row">
+              <div class="form-col-target">
+                <label for="selectTargetPlayer" class="action-label">1. Target Player:</label>
+                <select id="selectTargetPlayer" class="form-control select-target">
+                  <option value="">-- Choose Player --</option>
+                </select>
+              </div>
+
+              <div class="form-col-word">
+                <label for="inputAccusedWord" class="action-label">2. Suspected Word:</label>
+                <input 
+                  type="text" 
+                  id="inputAccusedWord" 
+                  class="form-control uppercase-text" 
+                  placeholder="TYPE ACCUSED WORD..." 
+                  maxlength="25"
+                />
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons-row">
+              <button id="btnAccuse" class="btn btn-danger btn-action-main">
+                ⚡ ACCUSE TARGET
+              </button>
+              <button id="btnPassTurn" class="btn btn-secondary btn-action-aux" title="Randomly transfer turn to another player">
+                ⏭️ Pass Turn
+              </button>
+              <button id="btnCallDraw" class="btn btn-outline-warning btn-action-aux" title="Call unanimous vote to draw">
+                🤝 Call Draw
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- SECTION D: PRIVATE SCRATCHPAD -->
+        <div class="section-scratchpad">
+          <div class="scratchpad-header">
+            <label for="privateScratchpad" class="scratchpad-label">
+              📝 Private Scratchpad 
+              <span class="scratchpad-tag">Strictly on your device &bull; Never shared</span>
+            </label>
+            <button id="btnClearScratchpad" class="btn-text-sm" title="Clear notes">Clear</button>
+          </div>
+          <textarea 
+            id="privateScratchpad" 
+            class="scratchpad-textarea" 
+            placeholder="Jot down flashing words, suspects, notes, and deductions here... (Saved automatically)"
+            rows="3"
+          ></textarea>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="game-footer">
+      <span><strong>KATCHO</strong> &bull; Created by <strong>KABIR VYAS</strong></span>
+    </footer>
+
+  </div><!-- /#app -->
+
+
+  <!-- ======================================================== -->
+  <!-- MODALS                                                   -->
+  <!-- ======================================================== -->
+
+  <!-- DOWNLOAD / INSTALL APP MODAL -->
+  <div id="modalInstallApp" class="modal-overlay hidden">
+    <div class="modal-card install-modal-card">
+      <div class="modal-header">
+        <span class="modal-icon">📥</span>
+        <h3>Download / Install KATCHO</h3>
+        <button class="btn-close-modal" id="btnCloseInstallModal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        
+        <div class="install-hero-icon">🎮📲</div>
+        <h4 class="install-main-title">Install KATCHO on Your Device</h4>
+        <p class="install-sub-desc">
+          Get the official full-screen app on your phone, tablet, or PC for fast 1-tap launching!
+        </p>
+
+        <!-- Direct 1-Click Install Button (Active on Chrome/Android/Edge) -->
+        <div class="direct-install-action" id="directInstallWrap">
+          <button id="btnInstallNativePrompt" class="btn btn-success btn-lg btn-block pulse-glow">
+            ⚡ Install KATCHO App Now
+          </button>
+          <small class="install-safe-note">🛡️ 100% Safe • Zero Device Permissions • Under 2 MB</small>
+        </div>
+
+        <!-- Multi-Platform Guide Tabs -->
+        <div class="platform-install-guide">
+          <div class="platform-box">
+            <div class="platform-header">🤖 Android & Google Play</div>
+            <p>Tap <strong>"Install KATCHO App Now"</strong> above to add directly to your home screen or download from Play Store once published.</p>
+          </div>
+
+          <div class="platform-box">
+            <div class="platform-header">🍏 iPhone & iPad (Safari)</div>
+            <p>Tap the <strong>Share button</strong> (<span class="share-icon-inline">📤</span>) at the bottom of Safari, then choose <strong>"Add to Home Screen ➕"</strong>.</p>
+          </div>
+
+          <div class="platform-box">
+            <div class="platform-header">💻 Windows & Mac Desktop</div>
+            <p>Click the <strong>Install icon (⊕)</strong> in your browser address bar to install as a standalone desktop game.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 0. HOST WORD MODE SELECTION MODAL (When Players < 7) -->
+  <div id="modalWordMode" class="modal-overlay hidden">
+    <div class="modal-card mode-modal-card">
+      <div class="modal-header">
+        <span class="modal-icon">⚙️</span>
+        <h3>Match Setup: Word Mode</h3>
+        <button class="btn-close-modal" id="btnCloseModeModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="mode-modal-intro">
+          You have fewer than 7 players in this room! Choose how many secret words each player submits to balance the deduction challenge:
+        </p>
+
+        <div class="mode-selection-cards">
+          <div class="mode-choice-card" id="btnChooseMode1">
+            <div class="mode-choice-icon">🔤</div>
+            <div class="mode-choice-info">
+              <h4>1 Word Per Player</h4>
+              <p>Standard quick match. Fast-paced elimination.</p>
+            </div>
+            <button class="btn btn-sm btn-primary">Select 1 Word</button>
+          </div>
+
+          <div class="mode-choice-card recommended" id="btnChooseMode2">
+            <div class="mode-badge-rec">🌟 Recommended for &lt; 7 Players</div>
+            <div class="mode-choice-icon">🔤🔤</div>
+            <div class="mode-choice-info">
+              <h4>2 Words Per Player (Double Word)</h4>
+              <p>Each player submits 2 secret words. Creates a richer flash sequence and deeper deductions!</p>
+            </div>
+            <button class="btn btn-sm btn-success">Select 2 Words</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 1. TRUTH-LOCKED VERIFICATION MODAL (For Accused Player) -->
+  <div id="modalTruthLock" class="modal-overlay hidden">
+    <div class="modal-card truth-modal-card">
+      <div class="truth-badge">🚨 YOU ARE BEING ACCUSED!</div>
+      
+      <div class="truth-body">
+        <p class="truth-scenario">
+          <span id="modalGuesserName" class="highlight-name">Guesser</span> suspects your secret word is:
+        </p>
+        <div id="modalAccusedWord" class="truth-word-highlight">"WORD"</div>
+        <div class="truth-lock-explanation">
+          🛡️ <strong>Truth-Locked Verification System:</strong><br>
+          The server has verified this accusation against your locked words. Click your verified button below to broadcast the answer to everyone.
+        </div>
+      </div>
+
+      <div class="truth-action-area">
+        <div id="truthButtonsContainer" class="truth-buttons-wrap">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 2. DRAW VOTE MODAL -->
+  <div id="modalDrawVote" class="modal-overlay hidden">
+    <div class="modal-card draw-modal-card">
+      <div class="modal-header">
+        <span class="modal-icon">🤝</span>
+        <h3>Draw Vote Called!</h3>
+      </div>
+      <div class="modal-body">
+        <p id="drawVotePrompt">A player has proposed to end the match in a DRAW.</p>
+        <p class="draw-condition-note">All players must vote <strong>Agree</strong> for the match to end in a draw. If anyone disagrees, play continues.</p>
+        <div id="drawVoteTally" class="vote-tally-pill">Votes: 1 / 4 Agreed</div>
+      </div>
+      <div class="modal-footer draw-vote-actions">
+        <button id="btnVoteAgree" class="btn btn-success btn-lg">
+          ✅ Agree to Draw
+        </button>
+        <button id="btnVoteDisagree" class="btn btn-danger btn-lg">
+          ❌ Disagree (Keep Playing)
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 3. LAN & HOTSPOT QR CODE MODAL -->
+  <div id="modalLanInfo" class="modal-overlay hidden">
+    <div class="modal-card lan-modal-card">
+      <div class="modal-header">
+        <span class="modal-icon">📡</span>
+        <h3>Join on Local Hotspot / Wi-Fi</h3>
+        <button class="btn-close-modal" id="btnCloseLanModal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <p class="lan-help-text">
+          Friends on the same Wi-Fi or Mobile Hotspot can scan this QR code to join immediately with <strong>zero mobile data</strong>!
+        </p>
+
+        <div class="qr-container">
+          <img id="qrCodeImage" src="" alt="LAN QR Code" class="qr-image" />
+        </div>
+
+        <div class="lan-url-box">
+          <span class="lan-url-label">Direct Hotspot Link:</span>
+          <div class="lan-copy-row">
+            <input type="text" id="inputLanUrl" class="form-control lan-url-input" readonly />
+            <button id="btnCopyLanUrl" class="btn btn-primary">Copy</button>
+          </div>
+        </div>
+
+        <div class="hotspot-steps">
+          <h4>📱 Quick Setup Guide:</h4>
+          <ol>
+            <li>Turn on <strong>Mobile Hotspot</strong> on Host phone/laptop.</li>
+            <li>Have friends connect to your Hotspot / Wi-Fi.</li>
+            <li>Scan the QR code above or open the link in any browser.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 4. RULES / HOW TO PLAY MODAL -->
+  <div id="modalRules" class="modal-overlay hidden">
+    <div class="modal-card rules-modal-card">
+      <div class="modal-header">
+        <span class="modal-icon">📖</span>
+        <h3>How to Play KATCHO</h3>
+        <button class="btn-close-modal" id="btnCloseRulesModal">&times;</button>
+      </div>
+      <div class="modal-body rules-content">
+        <div class="rule-step">
+          <span class="step-num">1</span>
+          <div>
+            <strong>Phase 1: Secret Word Entry (1 or 2 Words)</strong>
+            <p>Every player secretly enters their words. If under 7 players, host can choose 1 or 2 words per player. Once locked in, host starts reveal!</p>
+          </div>
+        </div>
+
+        <div class="rule-step">
+          <span class="step-num">2</span>
+          <div>
+            <strong>Phase 2: The Visual Moderator</strong>
+            <p>All submitted words flash one by one on the Top Stage. The sequence plays once, then repeats a second time. Memorize what you see!</p>
+          </div>
+        </div>
+
+        <div class="rule-step">
+          <span class="step-num">3</span>
+          <div>
+            <strong>Phase 3: Turn Guessing & Truth Lock</strong>
+            <p>When it is your turn, pick a player and guess their secret word. The accused sees a <strong>Truth-Locked</strong> button (YES if right, NO if wrong). No lying possible!</p>
+          </div>
+        </div>
+
+        <div class="rule-step">
+          <span class="step-num">4</span>
+          <div>
+            <strong>Turn Outcomes</strong>
+            <p><strong>YES (Correct):</strong> Accused is Caught (or loses that word). Guesser keeps their turn!<br>
+            <strong>NO (Wrong):</strong> Turn passes immediately to the accused player.</p>
+          </div>
+        </div>
+
+        <div class="rule-step">
+          <span class="step-num">5</span>
+          <div>
+            <strong>Phase 4: Victory</strong>
+            <p>The last remaining uncaught player wins the game! A full reveal table unmasks every player's secret words, accuracy, and elimination history.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

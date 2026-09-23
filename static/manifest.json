@@ -1,0 +1,24 @@
+{
+  "name": "KATCHO — Multiplayer Social Deduction",
+  "short_name": "KATCHO",
+  "description": "Real-time multiplayer social deduction and memory party game created by KABIR VYAS",
+  "start_url": "/?mode=pwa",
+  "display": "standalone",
+  "background_color": "#1E272E",
+  "theme_color": "#3867D6",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/static/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
