@@ -1199,6 +1199,31 @@ body {
   background: #FFFFFF;
 }
 
+.scratchpad-textarea:disabled,
+.scratchpad-textarea.scratchpad-locked {
+  background: #F1F5F9;
+  color: #94A3B8;
+  cursor: not-allowed;
+  border-color: #CBD5E1;
+  font-style: italic;
+  opacity: 0.85;
+}
+
+.section-scratchpad.locked-section {
+  background: #FFFDF5;
+  border-color: #FCD34D;
+  border-style: solid;
+}
+
+.scratchpad-tag-locked {
+  background: #FEF3C7;
+  color: #92400E;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: var(--border-radius-pill);
+  border: 1px solid #FCD34D;
+}
+
 /* FOOTER */
 .game-footer {
   text-align: center;

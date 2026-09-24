@@ -112,6 +112,8 @@
     btnCallDraw: document.getElementById('btnCallDraw'),
 
     // Scratchpad
+    scratchpadSection: document.getElementById('scratchpadSection'),
+    scratchpadTag: document.getElementById('scratchpadTag'),
     privateScratchpad: document.getElementById('privateScratchpad'),
     btnClearScratchpad: document.getElementById('btnClearScratchpad'),
 
@@ -238,6 +240,36 @@
   function saveScratchpad() {
     const key = roomCode ? `katcho_scratch_${roomCode}` : 'katcho_scratch_default';
     localStorage.setItem(key, els.privateScratchpad.value);
+  }
+
+  function lockScratchpad() {
+    if (els.privateScratchpad) {
+      els.privateScratchpad.disabled = true;
+      els.privateScratchpad.classList.add('scratchpad-locked');
+      els.privateScratchpad.placeholder = '🔒 Scratchpad is locked during the word flash! Watch & memorize...';
+    }
+    if (els.scratchpadSection) {
+      els.scratchpadSection.classList.add('locked-section');
+    }
+    if (els.scratchpadTag) {
+      els.scratchpadTag.textContent = '🔒 Locked during Word Flash';
+      els.scratchpadTag.className = 'scratchpad-tag scratchpad-tag-locked';
+    }
+  }
+
+  function unlockScratchpad() {
+    if (els.privateScratchpad) {
+      els.privateScratchpad.disabled = false;
+      els.privateScratchpad.classList.remove('scratchpad-locked');
+      els.privateScratchpad.placeholder = 'Jot down flashing words, suspects, notes, and deductions here... (Saved automatically)';
+    }
+    if (els.scratchpadSection) {
+      els.scratchpadSection.classList.remove('locked-section');
+    }
+    if (els.scratchpadTag) {
+      els.scratchpadTag.textContent = 'Strictly on your device • Never shared';
+      els.scratchpadTag.className = 'scratchpad-tag';
+    }
   }
 
   function showToast(msg, type = 'info') {
@@ -410,6 +442,7 @@
     els.stagePhaseGameOver.classList.add('hidden');
 
     if (state.phase === 'LOBBY') {
+      unlockScratchpad();
       els.stagePhaseLobby.classList.remove('hidden');
       
       // Mode Label
@@ -473,9 +506,11 @@
       }
 
     } else if (state.phase === 'REVEAL') {
+      lockScratchpad();
       els.stagePhaseReveal.classList.remove('hidden');
 
     } else if (state.phase === 'GUESSING') {
+      unlockScratchpad();
       els.stagePhaseGuessing.classList.remove('hidden');
       
       const turnName = state.current_turn_player_name || 'Someone';
@@ -502,6 +537,7 @@
       }
 
     } else if (state.phase === 'GAME_OVER') {
+      unlockScratchpad();
       els.stagePhaseGameOver.classList.remove('hidden');
       sounds.fanfare();
 
@@ -684,6 +720,7 @@
   function startVisualModeratorSequence(words) {
     if (!words || words.length === 0 || isFlashRunning) return;
     isFlashRunning = true;
+    lockScratchpad();
 
     els.stagePhaseLobby.classList.add('hidden');
     els.stagePhaseReveal.classList.remove('hidden');
@@ -695,6 +732,7 @@
     function flashNext() {
       if (currentLoop > 2) {
         isFlashRunning = false;
+        unlockScratchpad();
         els.flashWordDisplay.textContent = 'GET READY TO DEDUCE!';
         els.flashWordDisplay.style.color = '#2ED573';
         els.flashProgressText.textContent = 'Sequence Complete!';

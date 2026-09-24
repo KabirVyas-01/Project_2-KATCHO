@@ -81,10 +81,9 @@ def generate_qr_base64(url: str) -> str:
     )
     qr.add_data(url)
     qr.make(fit=True)
-    img = qr.make_image(fill_color="#1E272E", back_color="#FFFFFF", image_factory=qrcode.image.pil.PilImage)
-    pil_img = img.get_image()
+    img = qr.make_image(fill_color="#1E272E", back_color="#FFFFFF")
     buf = io.BytesIO()
-    pil_img.save(buf, format="PNG")
+    img.save(buf, format="PNG")
     b64_str = base64.b64encode(buf.getvalue()).decode("utf-8")
     return f"data:image/png;base64,{b64_str}"
 
