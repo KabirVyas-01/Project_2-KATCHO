@@ -128,20 +128,27 @@ os.makedirs(os.path.join(STATIC_DIR, "js"), exist_ok=True)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
+NO_CACHE_HEADERS = {
+    "Cache-Control": "no-cache, no-store, must-revalidate",
+    "Pragma": "no-cache",
+    "Expires": "0"
+}
+
+
 @app.get("/")
 async def get_root(play: Optional[str] = None, view: Optional[str] = None):
     """Serves the Home landing page by default, or game SPA if requested."""
     if play or view in ("app", "game"):
         index_file = os.path.join(STATIC_DIR, "index.html")
         if os.path.exists(index_file):
-            return FileResponse(index_file)
+            return FileResponse(index_file, headers=NO_CACHE_HEADERS)
     landing_file = os.path.join(STATIC_DIR, "landing.html")
     if os.path.exists(landing_file):
-        return FileResponse(landing_file)
+        return FileResponse(landing_file, headers=NO_CACHE_HEADERS)
     index_file = os.path.join(STATIC_DIR, "index.html")
     if os.path.exists(index_file):
-        return FileResponse(index_file)
-    return HTMLResponse("<h1>KATCHO game UI not found.</h1>")
+        return FileResponse(index_file, headers=NO_CACHE_HEADERS)
+    return HTMLResponse("<h1>KATCHO game UI not found.</h1>", headers=NO_CACHE_HEADERS)
 
 
 @app.get("/play")
@@ -149,8 +156,8 @@ async def get_game():
     """Serves the main KATCHO interactive application SPA."""
     index_file = os.path.join(STATIC_DIR, "index.html")
     if os.path.exists(index_file):
-        return FileResponse(index_file)
-    return HTMLResponse("<h1>KATCHO game UI not found. Please add static/index.html</h1>")
+        return FileResponse(index_file, headers=NO_CACHE_HEADERS)
+    return HTMLResponse("<h1>KATCHO game UI not found. Please add static/index.html</h1>", headers=NO_CACHE_HEADERS)
 
 
 @app.get("/home")
@@ -159,7 +166,7 @@ async def get_landing():
     """Serves the KATCHO Home & Pre-Game Lobby landing page."""
     landing_file = os.path.join(STATIC_DIR, "landing.html")
     if os.path.exists(landing_file):
-        return FileResponse(landing_file)
+        return FileResponse(landing_file, headers=NO_CACHE_HEADERS)
     return await get_game()
 
 
@@ -172,7 +179,7 @@ async def get_manifest():
 @app.get("/service-worker.js")
 async def get_service_worker():
     sw_file = os.path.join(STATIC_DIR, "service-worker.js")
-    return FileResponse(sw_file, media_type="application/javascript")
+    return FileResponse(sw_file, media_type="application/javascript", headers=NO_CACHE_HEADERS)
 
 
 @app.get("/api/lan-info")
