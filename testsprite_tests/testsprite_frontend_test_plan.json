@@ -1,0 +1,1056 @@
+[
+  {
+    "id": "TC001",
+    "title": "Host creates a room from the landing screen",
+    "description": "A player can enter a display name and create a new room, then see the live room interface open with a room code and online status.",
+    "category": "Room Creation and WebSocket Connection",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the display name field with HostPlayer"
+      },
+      {
+        "type": "action",
+        "description": "Click the control to create a new room"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the room interface is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a room code is shown and the connection status is online"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "Host creates a room and reaches the lobby",
+    "description": "This verifies that a host can create a room from the landing screen and arrive in a connected lobby ready to share the room code.",
+    "category": "Secret Word Submission",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the display name field with Host Alice"
+      },
+      {
+        "type": "action",
+        "description": "Click the control to host a room"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the lobby is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the room code is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Guest joins an existing room from the landing screen",
+    "description": "A player can enter a display name and room code, join an existing room, and see the live room interface with the player roster.",
+    "category": "Room Joining",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the display name field with GuestPlayer"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the room code field with a valid room code"
+      },
+      {
+        "type": "action",
+        "description": "Click the control to join the room"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the room interface is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the player roster is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Accuse a target during your turn",
+    "description": "Verifies that an active player can select a target, submit an accusation, and see the result announced in the match flow.",
+    "category": "Turn-Based Accusation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Join an existing room in the guessing phase"
+      },
+      {
+        "type": "action",
+        "description": "Select a target player"
+      },
+      {
+        "type": "action",
+        "description": "Enter a suspected word"
+      },
+      {
+        "type": "action",
+        "description": "Submit the accusation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an accusation result announcement is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "Review the final match outcome and reveal table",
+    "description": "Verifies that when a match ends, players can see the final result and inspect the full reveal table with all players' secret words and scores.",
+    "category": "Game Over and Reveal Table",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Play through the game until the match ends"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a final match outcome is shown"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the reveal table displays all players' results and scores"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Reveal phase flashes words and locks the scratchpad",
+    "description": "This verifies that starting the reveal phase shows the flash sequence, updates progress, locks the scratchpad, and ends on the deduce prompt.",
+    "category": "Visual Moderator Word Flash",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Join an active room"
+      },
+      {
+        "type": "action",
+        "description": "Start the reveal phase"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a countdown begins"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify words flash one by one"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the scratchpad is locked"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the deduce prompt is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC007",
+    "title": "Confirm a correct accusation as the accused player",
+    "description": "Verifies that the accused player sees the truth-locked verification modal and can broadcast a verified yes response.",
+    "category": "Truth-Locked Verification Modal",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Join a room as the accused player during an accusation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the accusation modal is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a single truth-locked verification action is available"
+      },
+      {
+        "type": "action",
+        "description": "Confirm the verified correct response"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a yes response is broadcast"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC008",
+    "title": "Host and guest see the room interface after joining flows",
+    "description": "The landing flow leads into the live game room for both room creation and room joining paths, confirming the core multiplayer entry experience works end to end.",
+    "category": "Room Joining",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the display name field with FlowPlayer"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the room code field with a valid room code"
+      },
+      {
+        "type": "action",
+        "description": "Click the control to join the room"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the room interface is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the live player roster is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC009",
+    "title": "Player locks a secret word in the lobby",
+    "description": "This verifies that a player can submit a secret word and lock it before the round begins, showing the locked confirmation afterward.",
+    "category": "Secret Word Submission",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the display name field with Player Cara"
+      },
+      {
+        "type": "action",
+        "description": "Join or host a room"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the secret word field with moonlight"
+      },
+      {
+        "type": "action",
+        "description": "Lock the secret word"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the word is shown as locked"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a lock confirmation is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC010",
+    "title": "Confirm an incorrect accusation as the accused player",
+    "description": "Verifies that the accused player sees the truth-locked verification modal and can broadcast a verified no response.",
+    "category": "Truth-Locked Verification Modal",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Join a room as the accused player during an accusation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the accusation modal is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a single truth-locked verification action is available"
+      },
+      {
+        "type": "action",
+        "description": "Confirm the verified incorrect response"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a no response is broadcast"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC011",
+    "title": "Pass the turn to another player",
+    "description": "Verifies that the active player can pass their turn and the turn advances to a different player.",
+    "category": "Turn-Based Accusation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Join an existing room in the guessing phase"
+      },
+      {
+        "type": "action",
+        "description": "Pass the turn"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the active turn changes to another player"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC012",
+    "title": "Start another round after the match ends",
+    "description": "Verifies that after game over, players can begin a new round and see the same group transition into a fresh match.",
+    "category": "Game Over and Reveal Table",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Play through the game until the match ends"
+      },
+      {
+        "type": "action",
+        "description": "Start another round"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a new match begins with the same players"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the game is no longer in the finished state"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC013",
+    "title": "Guest locks multiple secret words in an active lobby",
+    "description": "This verifies that a joining player can enter secret words in an active lobby, lock them, and see the ready count update for the room.",
+    "category": "Secret Word Submission",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the display name field with Guest Eli"
+      },
+      {
+        "type": "action",
+        "description": "Join or host a room"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the first secret word field with river"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the second secret word field with stone"
+      },
+      {
+        "type": "action",
+        "description": "Lock the secret words"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the words are shown as locked"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the ready count is updated"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC014",
+    "title": "Call a draw during your turn",
+    "description": "Verifies that the active player can initiate a draw vote and the match enters the voting process.",
+    "category": "Turn-Based Accusation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Join an existing room in the guessing phase"
+      },
+      {
+        "type": "action",
+        "description": "Call a draw"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the draw vote process begins"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC015",
+    "title": "Pressing Enter in the name field starts room entry",
+    "description": "A player can submit the landing form from the name field using Enter and reach the room interface.",
+    "category": "Landing Entry Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the display name field with QuickStartPlayer"
+      },
+      {
+        "type": "action",
+        "description": "Press Enter in the name field"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the room interface is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a room code or joined room is shown"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC016",
+    "title": "Player changes a locked secret word and locks the updated value",
+    "description": "This verifies that a player can reopen a previously locked word, edit it, and lock the new value again with the updated confirmation shown.",
+    "category": "Secret Word Submission",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the display name field with Player Dana"
+      },
+      {
+        "type": "action",
+        "description": "Join or host a room"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the secret word field with lantern"
+      },
+      {
+        "type": "action",
+        "description": "Lock the secret word"
+      },
+      {
+        "type": "action",
+        "description": "Choose to change the locked word"
+      },
+      {
+        "type": "action",
+        "description": "Edit the word field with starlight"
+      },
+      {
+        "type": "action",
+        "description": "Lock the secret word again"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the updated word is shown as locked"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a lock confirmation is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC017",
+    "title": "Lock and unlock the scratchpad across phases",
+    "description": "Verifies that the private scratchpad locks during word flash and unlocks again when the guessing phase begins.",
+    "category": "Private Scratchpad",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Reach the word flash phase"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the scratchpad is locked"
+      },
+      {
+        "type": "action",
+        "description": "Reach the guessing phase"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the scratchpad is unlocked"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC018",
+    "title": "Pressing Enter in the room code field joins a room",
+    "description": "A player can enter a room code and submit it from the room code field using Enter, reaching the live room view.",
+    "category": "Room Joining",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the display name field with QuickJoinPlayer"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the room code field with a valid room code"
+      },
+      {
+        "type": "action",
+        "description": "Press Enter in the room code field"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the room interface is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the player roster is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC019",
+    "title": "Vote to agree to a draw",
+    "description": "Verifies that a player can participate in the draw vote and have their agree vote counted.",
+    "category": "Draw Vote Modal",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Join a room after a draw vote starts"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the draw vote modal is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the vote tally is visible"
+      },
+      {
+        "type": "action",
+        "description": "Agree to the draw"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the agree vote is counted"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC020",
+    "title": "Vote to disagree with a draw",
+    "description": "Verifies that a player can participate in the draw vote and have their disagree vote counted.",
+    "category": "Draw Vote Modal",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Join a room after a draw vote starts"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the draw vote modal is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the vote tally is visible"
+      },
+      {
+        "type": "action",
+        "description": "Disagree with the draw"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the disagree vote is counted"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC021",
+    "title": "Save private notes automatically in the scratchpad",
+    "description": "Verifies that typing notes into the private scratchpad saves them automatically and the notes remain visible after the interaction.",
+    "category": "Private Scratchpad",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Type notes into the private scratchpad"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the notes remain visible in the scratchpad"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the scratchpad content is saved"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC022",
+    "title": "Host selects one word per player in a small room",
+    "description": "This verifies that the host can open the word mode selector and choose the one-word mode, with the mode label updating afterward.",
+    "category": "Word Mode Selection",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the display name field with Host Finn"
+      },
+      {
+        "type": "action",
+        "description": "Host a room"
+      },
+      {
+        "type": "action",
+        "description": "Open the word mode selector"
+      },
+      {
+        "type": "action",
+        "description": "Choose one word per player"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the word mode label is updated"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the selected mode is shown"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC023",
+    "title": "Host selects two words per player in a small room",
+    "description": "This verifies that the host can open the word mode selector and choose the two-word mode, with the mode label updating afterward.",
+    "category": "Word Mode Selection",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the display name field with Host Gia"
+      },
+      {
+        "type": "action",
+        "description": "Host a room"
+      },
+      {
+        "type": "action",
+        "description": "Open the word mode selector"
+      },
+      {
+        "type": "action",
+        "description": "Choose two words per player"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the word mode label is updated"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the selected mode is shown"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC024",
+    "title": "Clear private scratchpad notes",
+    "description": "Verifies that a player can erase private notes and the scratchpad becomes empty afterward.",
+    "category": "Private Scratchpad",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Type notes into the private scratchpad"
+      },
+      {
+        "type": "action",
+        "description": "Clear the scratchpad notes"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the scratchpad is empty"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the notes are no longer visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC025",
+    "title": "Start the app install prompt from the modal",
+    "description": "A player can launch the app install prompt from the install modal and proceed with installation.",
+    "category": "PWA Install / Download App Modal",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Open the install modal"
+      },
+      {
+        "type": "action",
+        "description": "Start the app install prompt"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the installation prompt is shown"
+      },
+      {
+        "type": "action",
+        "description": "Complete the installation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the app installation completes"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC026",
+    "title": "Host can open LAN sharing information",
+    "description": "A host can open the LAN sharing prompt and see hotspot and QR join information for others on the local network.",
+    "category": "Landing Entry Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the control to show hotspot QR code and LAN information"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the LAN sharing modal is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify hotspot and QR join information are visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC027",
+    "title": "Open the install instructions modal",
+    "description": "A player can open the PWA install modal and view the app installation instructions.",
+    "category": "PWA Install / Download App Modal",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Open the install modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the install instructions are displayed"
+      },
+      {
+        "type": "action",
+        "description": "Dismiss the install modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the install modal is dismissed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC028",
+    "title": "Host can open app install guidance",
+    "description": "A player can open the install prompt and see guidance for installing the app as a PWA.",
+    "category": "Landing Entry Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the control to download or install the app"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the install guidance is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify PWA install information is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC029",
+    "title": "Read the game rules and close the modal",
+    "description": "A player can open the rules modal, review the phase overview, and dismiss it to return to the main screen.",
+    "category": "Rules / How to Play Modal",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Open the rules modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the phase overview is displayed"
+      },
+      {
+        "type": "action",
+        "description": "Close the rules modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the main screen is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC030",
+    "title": "Open the LAN sharing modal and copy the room URL",
+    "description": "Verifies that players can open the LAN sharing modal, view the direct join information, and copy the room URL to the clipboard.",
+    "category": "LAN / Hotspot QR Code Modal",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Open the LAN sharing modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the LAN sharing information is displayed"
+      },
+      {
+        "type": "action",
+        "description": "Copy the room URL"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the modal remains open after copying"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC031",
+    "title": "Dismiss the rules modal with Escape",
+    "description": "A player can open the rules modal and dismiss it using the Escape key.",
+    "category": "Rules / How to Play Modal",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Open the rules modal"
+      },
+      {
+        "type": "action",
+        "description": "Press Escape"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the rules modal is dismissed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC032",
+    "title": "Dismiss the LAN sharing modal",
+    "description": "Verifies that players can close the LAN sharing modal after viewing the QR code and direct URL.",
+    "category": "LAN / Hotspot QR Code Modal",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Open the LAN sharing modal"
+      },
+      {
+        "type": "action",
+        "description": "Close the LAN sharing modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the LAN sharing modal is dismissed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the main game screen is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC033",
+    "title": "Turn sound effects on and off",
+    "description": "A player can toggle game audio effects and see the sound state change in the header.",
+    "category": "Sound Toggle",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Toggle sound off"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the audio state switches to muted"
+      },
+      {
+        "type": "action",
+        "description": "Toggle sound on"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the audio state switches to sound on"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC034",
+    "title": "Open and close the install modal by backdrop",
+    "description": "A player can dismiss the PWA install modal without starting installation.",
+    "category": "PWA Install / Download App Modal",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Open the install modal"
+      },
+      {
+        "type": "action",
+        "description": "Click outside the modal to dismiss it"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the install modal is dismissed"
+      }
+    ],
+    "priority": "Medium"
+  }
+]

@@ -200,13 +200,14 @@
   // INITIALIZATION
   // ===================================================================
   function init() {
-    playerId = localStorage.getItem('katcho_player_id');
+    playerId = sessionStorage.getItem('katcho_player_id');
     if (!playerId) {
       playerId = 'p_' + Math.random().toString(36).substr(2, 9);
-      localStorage.setItem('katcho_player_id', playerId);
+      sessionStorage.setItem('katcho_player_id', playerId);
     }
+    localStorage.setItem('katcho_player_id', playerId);
 
-    const savedName = localStorage.getItem('katcho_player_name');
+    const savedName = sessionStorage.getItem('katcho_player_name') || localStorage.getItem('katcho_player_name');
     if (savedName && els.inputPlayerName) {
       els.inputPlayerName.value = savedName;
     }
@@ -218,14 +219,45 @@
     }
 
     const urlParams = new URLSearchParams(window.location.search);
-    const paramRoom = urlParams.get('room');
+    const paramRoom = urlParams.get('room') || urlParams.get('join') || urlParams.get('code') || window.location.hash.replace('#', '');
     if (paramRoom && els.inputRoomCode) {
-      els.inputRoomCode.value = paramRoom.toUpperCase();
+      els.inputRoomCode.value = paramRoom.toUpperCase().trim();
+    }
+
+    const paramName = urlParams.get('name');
+    if (paramName && els.inputPlayerName) {
+      els.inputPlayerName.value = paramName.trim();
+      sessionStorage.setItem('katcho_player_name', paramName.trim());
+      localStorage.setItem('katcho_player_name', paramName.trim());
     }
 
     loadScratchpad();
     bindEvents();
     fetchLanInfo();
+
+    // Auto-host or auto-join from URL parameters (e.g. from Home page party room cards)
+    const isHost = urlParams.get('host') === '1' || urlParams.get('host') === 'true' || urlParams.get('create') === '1';
+    const isAutoJoin = urlParams.get('auto') === '1' || urlParams.get('join') !== null;
+    const requestedMode = parseInt(urlParams.get('mode') || '0', 10);
+
+    if (isHost && els.btnCreateRoom) {
+      setTimeout(() => {
+        els.btnCreateRoom.click();
+        if (requestedMode === 1 || requestedMode === 2) {
+          const checkModeTimer = setInterval(() => {
+            if (roomCode && ws && ws.readyState === WebSocket.OPEN) {
+              clearInterval(checkModeTimer);
+              sendAction('set_word_mode', { words_per_player: requestedMode });
+            }
+          }, 250);
+          setTimeout(() => clearInterval(checkModeTimer), 4000);
+        }
+      }, 150);
+    } else if (isAutoJoin && paramRoom && els.btnJoinRoom) {
+      setTimeout(() => {
+        els.btnJoinRoom.click();
+      }, 150);
+    }
   }
 
   function updateSoundIcon() {
@@ -289,7 +321,7 @@
   // ===================================================================
   // WEBSOCKETS
   // ===================================================================
-  function connectWebSocket(targetRoom) {
+  function connectWebSocket(targetRoom, onConnected = null) {
     if (ws) {
       try { ws.close(); } catch(e) {}
     }
@@ -304,6 +336,9 @@
     ws.onopen = () => {
       setConnectionStatus('online', 'Online');
       startPing();
+      if (typeof onConnected === 'function') {
+        onConnected();
+      }
     };
 
     ws.onmessage = (event) => {
@@ -331,7 +366,7 @@
       showToast('Not connected to server', 'error');
       return;
     }
-    const msg = Object.assign({ action }, payload);
+    const msg = Object.assign({ action, room_code: roomCode }, payload);
     ws.send(JSON.stringify(msg));
   }
 
@@ -658,8 +693,13 @@
         if (p.id !== playerId) {
           const opt = document.createElement('option');
           opt.value = p.id;
-          opt.textContent = `${p.name} ${p.is_caught ? '(Caught)' : '(Alive)'}`;
-          if (p.id === currentTarget) opt.selected = true;
+          if (p.is_caught) {
+            opt.textContent = `${p.name} (Caught / Eliminated)`;
+            opt.disabled = true;
+          } else {
+            opt.textContent = `${p.name} (Active)`;
+          }
+          if (p.id === currentTarget && !p.is_caught) opt.selected = true;
           els.selectTargetPlayer.appendChild(opt);
         }
       });
@@ -797,43 +837,59 @@
   // EVENT BINDINGS
   // ===================================================================
   function bindEvents() {
+    // Player Name input
     els.inputPlayerName.addEventListener('input', () => {
-      localStorage.setItem('katcho_player_name', els.inputPlayerName.value.trim());
+      const name = els.inputPlayerName.value.trim();
+      sessionStorage.setItem('katcho_player_name', name);
+      localStorage.setItem('katcho_player_name', name);
+    });
+    els.inputPlayerName.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const roomVal = els.inputRoomCode ? els.inputRoomCode.value.trim() : '';
+        if (roomVal.length >= 4) {
+          els.btnJoinRoom.click();
+        } else {
+          els.btnCreateRoom.click();
+        }
+      }
     });
 
+    // Room Code input
+    els.inputRoomCode.addEventListener('input', () => {
+      els.inputRoomCode.value = els.inputRoomCode.value.toUpperCase();
+    });
+    els.inputRoomCode.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        els.btnJoinRoom.click();
+      }
+    });
+
+    // Create Room
     els.btnCreateRoom.addEventListener('click', () => {
       sounds.click();
       const name = els.inputPlayerName.value.trim() || 'Host';
       localStorage.setItem('katcho_player_name', name);
       
       const tempCode = 'CREATE_' + Math.random().toString(36).substr(2, 4).toUpperCase();
-      connectWebSocket(tempCode);
-
-      const checkOpen = setInterval(() => {
-        if (ws && ws.readyState === WebSocket.OPEN) {
-          clearInterval(checkOpen);
-          sendAction('create_room', { name });
-        }
-      }, 50);
+      connectWebSocket(tempCode, () => {
+        sendAction('create_room', { name });
+      });
     });
 
+    // Join Room
     els.btnJoinRoom.addEventListener('click', () => {
       sounds.click();
       const name = els.inputPlayerName.value.trim() || 'Player';
       const code = els.inputRoomCode.value.trim().toUpperCase();
       if (!code) {
         showToast('Please enter a 4-letter Room Code', 'error');
+        els.inputRoomCode.focus();
         return;
       }
       localStorage.setItem('katcho_player_name', name);
-      connectWebSocket(code);
-
-      const checkOpen = setInterval(() => {
-        if (ws && ws.readyState === WebSocket.OPEN) {
-          clearInterval(checkOpen);
-          sendAction('join_room', { room_code: code, name });
-        }
-      }, 50);
+      connectWebSocket(code, () => {
+        sendAction('join_room', { room_code: code, name });
+      });
     });
 
     // Word Mode Modal Buttons
@@ -862,6 +918,11 @@
     els.inputSecretWord1.addEventListener('input', () => {
       els.inputSecretWord1.value = els.inputSecretWord1.value.toUpperCase();
     });
+    els.inputSecretWord1.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        els.btnSubmitSingleWord.click();
+      }
+    });
 
     els.btnSubmitSingleWord.addEventListener('click', () => {
       sounds.click();
@@ -878,8 +939,19 @@
     els.inputDoubleWord1.addEventListener('input', () => {
       els.inputDoubleWord1.value = els.inputDoubleWord1.value.toUpperCase();
     });
+    els.inputDoubleWord1.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        els.inputDoubleWord2.focus();
+      }
+    });
+
     els.inputDoubleWord2.addEventListener('input', () => {
       els.inputDoubleWord2.value = els.inputDoubleWord2.value.toUpperCase();
+    });
+    els.inputDoubleWord2.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        els.btnSubmitDoubleWord.click();
+      }
     });
 
     els.btnSubmitDoubleWord.addEventListener('click', () => {
@@ -918,6 +990,11 @@
     // Accuse Action
     els.inputAccusedWord.addEventListener('input', () => {
       els.inputAccusedWord.value = els.inputAccusedWord.value.toUpperCase();
+    });
+    els.inputAccusedWord.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        els.btnAccuse.click();
+      }
     });
 
     els.btnAccuse.addEventListener('click', () => {
@@ -1099,6 +1176,16 @@
           .catch((err) => console.warn('ServiceWorker registration error:', err));
       });
     }
+
+    // Escape key modal dismissal & Backdrop click handlers
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (els.modalLanInfo) els.modalLanInfo.classList.add('hidden');
+        if (els.modalRules) els.modalRules.classList.add('hidden');
+        if (els.modalWordMode) els.modalWordMode.classList.add('hidden');
+        if (els.modalInstallApp) els.modalInstallApp.classList.add('hidden');
+      }
+    });
 
     window.addEventListener('click', (e) => {
       if (e.target === els.modalLanInfo) els.modalLanInfo.classList.add('hidden');

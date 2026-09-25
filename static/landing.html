@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KATCHO — Real-Time Social Deduction & Memory Party Game | Created by KABIR VYAS</title>
-  <meta name="description" content="KATCHO is a real-time social deduction & memory party game. Secret words, sharp memories, clever deducers. Play in real-time with zero sign-ups over web or local hotspot." />
+  <title>KATCHO — Real-Time Social Deduction &amp; Memory Party Game | Created by KABIR VYAS</title>
+  <meta name="description" content="KATCHO is a real-time social deduction &amp; memory party game. Secret words, sharp memories, clever deducers. Play in real-time with zero sign-ups over web or local hotspot." />
 
   <!-- PWA Meta -->
   <link rel="manifest" href="/manifest.json" />
@@ -88,7 +88,7 @@
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--clr-border-light);
       padding: 0 24px;
-      height: 60px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -99,28 +99,28 @@
       gap: 10px;
     }
     .nav-brand img {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
     }
     .nav-brand-text {
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       color: var(--clr-primary);
       letter-spacing: 1.5px;
     }
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       list-style: none;
     }
     .nav-links a {
-      padding: 8px 16px;
+      padding: 8px 18px;
       border-radius: var(--radius-pill);
-      font-weight: 600;
-      font-size: 0.875rem;
+      font-weight: 700;
+      font-size: 0.88rem;
       color: var(--clr-text-secondary);
       transition: var(--transition);
     }
@@ -134,56 +134,23 @@
       align-items: center;
       gap: 10px;
     }
-    .btn-nav-login {
+    .btn-nav-play {
       padding: 8px 20px;
       border-radius: var(--radius-pill);
       background: var(--clr-primary);
-      color: #fff;
+      color: #fff !important;
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.86rem;
       transition: var(--transition);
       display: flex;
       align-items: center;
       gap: 6px;
+      text-decoration: none !important;
     }
-    .btn-nav-login:hover {
+    .btn-nav-play:hover {
       background: var(--clr-primary-dark);
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(192,57,43,0.3);
-    }
-
-    /* ============================
-       LIVE STATUS BAR
-       ============================ */
-    .status-bar {
-      background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
-      color: rgba(255,255,255,0.85);
-      padding: 8px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 32px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-    .status-bar .stat-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .stat-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #2ECC71;
-      animation: pulse-dot 2s infinite;
-    }
-    .stat-dot.orange { background: #F39C12; }
-    .stat-dot.blue { background: #3498DB; }
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
     }
 
     /* ============================
@@ -192,7 +159,7 @@
     .hero-section {
       text-align: center;
       padding: 48px 24px 32px;
-      background: linear-gradient(180deg, rgba(192,57,43,0.04) 0%, transparent 70%);
+      background: linear-gradient(180deg, rgba(192,57,43,0.05) 0%, transparent 80%);
     }
     .hero-logo-wrap {
       display: flex;
@@ -202,9 +169,9 @@
       margin-bottom: 16px;
     }
     .hero-logo-icon {
-      width: 80px;
-      height: 80px;
-      border-radius: 20px;
+      width: 84px;
+      height: 84px;
+      border-radius: 22px;
       box-shadow: var(--shadow-md);
       animation: float 3s ease-in-out infinite;
     }
@@ -214,7 +181,7 @@
     }
     .hero-title {
       font-family: var(--font-display);
-      font-size: 3rem;
+      font-size: 3.2rem;
       font-weight: 700;
       color: var(--clr-primary);
       letter-spacing: 4px;
@@ -236,16 +203,16 @@
     }
     .hero-tagline {
       font-family: var(--font-display);
-      font-size: 1.25rem;
+      font-size: 1.35rem;
       font-weight: 600;
       color: var(--clr-text);
-      margin: 12px 0 6px;
+      margin: 14px 0 8px;
     }
     .hero-description {
-      max-width: 560px;
+      max-width: 580px;
       margin: 0 auto;
       color: var(--clr-text-secondary);
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       line-height: 1.7;
     }
     .hero-cta-row {
@@ -253,7 +220,7 @@
       align-items: center;
       justify-content: center;
       gap: 12px;
-      margin-top: 20px;
+      margin-top: 24px;
     }
     .btn-hero {
       display: inline-flex;
@@ -266,25 +233,27 @@
       transition: var(--transition);
     }
     .btn-hero-primary {
-      background: var(--clr-accent);
+      background: var(--clr-primary);
       color: #fff;
-      box-shadow: 0 4px 14px rgba(44,115,210,0.3);
+      box-shadow: 0 4px 14px rgba(192,57,43,0.3);
     }
     .btn-hero-primary:hover {
-      background: var(--clr-accent-dark);
+      background: var(--clr-primary-dark);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(44,115,210,0.35);
+      box-shadow: 0 6px 20px rgba(192,57,43,0.35);
       text-decoration: none;
     }
     .btn-hero-outline {
-      background: transparent;
-      color: var(--clr-text-secondary);
+      background: var(--clr-surface);
+      color: var(--clr-text);
       border: 2px solid var(--clr-border);
+      box-shadow: var(--shadow-sm);
     }
     .btn-hero-outline:hover {
-      border-color: var(--clr-text-muted);
-      color: var(--clr-text);
+      border-color: var(--clr-accent);
+      color: var(--clr-accent);
       text-decoration: none;
+      transform: translateY(-2px);
     }
 
     /* ============================
@@ -294,6 +263,30 @@
       max-width: 960px;
       margin: 0 auto;
       padding: 0 24px 48px;
+    }
+
+    /* ============================
+       PARTY ROOMS HEADER
+       ============================ */
+    .party-rooms-header {
+      text-align: center;
+      margin-bottom: 24px;
+      padding-top: 12px;
+    }
+    .party-section-heading {
+      font-family: var(--font-display);
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--clr-text);
+      letter-spacing: 1px;
+      margin-top: 6px;
+      margin-bottom: 6px;
+    }
+    .party-section-sub {
+      color: var(--clr-text-secondary);
+      font-size: 0.95rem;
+      max-width: 540px;
+      margin: 0 auto;
     }
 
     /* ============================
@@ -390,6 +383,8 @@
       padding: 24px;
       box-shadow: var(--shadow-card);
       transition: var(--transition);
+      display: flex;
+      flex-direction: column;
     }
     .action-card:hover {
       box-shadow: var(--shadow-md);
@@ -419,13 +414,13 @@
     }
     .card-title {
       font-family: var(--font-display);
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 700;
       color: var(--clr-text);
       margin-bottom: 6px;
     }
     .card-desc {
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       color: var(--clr-text-secondary);
       margin-bottom: 16px;
       line-height: 1.5;
@@ -437,11 +432,11 @@
       align-items: center;
       gap: 8px;
       margin-bottom: 10px;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       color: var(--clr-text-secondary);
     }
     .option-row .material-symbols-rounded {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       color: var(--clr-text-muted);
     }
     .option-value {
@@ -451,26 +446,31 @@
     }
     .mode-pills {
       display: flex;
-      gap: 6px;
-      margin-top: 6px;
-      margin-bottom: 14px;
+      gap: 8px;
+      margin-top: 8px;
+      margin-bottom: 18px;
     }
     .mode-pill {
-      padding: 5px 12px;
-      border-radius: var(--radius-pill);
-      font-size: 0.72rem;
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.76rem;
       font-weight: 700;
       border: 1.5px solid var(--clr-border);
       color: var(--clr-text-secondary);
-      background: transparent;
+      background: var(--clr-surface-alt);
       transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
     .mode-pill.active {
-      border-color: var(--clr-accent);
-      color: var(--clr-accent);
-      background: rgba(44,115,210,0.06);
+      border-color: var(--clr-primary);
+      color: var(--clr-primary);
+      background: rgba(192,57,43,0.06);
     }
-    .mode-pill:hover { border-color: var(--clr-accent-light); }
+    .mode-pill:hover { border-color: var(--clr-primary-light); }
 
     .btn-action {
       display: flex;
@@ -478,12 +478,13 @@
       justify-content: center;
       gap: 8px;
       width: 100%;
-      padding: 13px 20px;
+      padding: 14px 20px;
       border-radius: var(--radius-md);
       font-weight: 800;
       font-size: 0.95rem;
       transition: var(--transition);
       letter-spacing: 0.3px;
+      margin-top: auto;
     }
     .btn-host {
       background: var(--clr-primary);
@@ -513,9 +514,10 @@
       justify-content: center;
       gap: 10px;
       margin-bottom: 10px;
+      margin-top: 6px;
     }
     .pin-char {
-      width: 56px;
+      width: 58px;
       height: 64px;
       border: 2px solid var(--clr-border);
       border-radius: var(--radius-md);
@@ -534,16 +536,11 @@
       box-shadow: 0 0 0 3px rgba(44,115,210,0.12);
       background: #fff;
     }
-    .pin-dash {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--clr-text-muted);
-    }
     .pin-hint {
       text-align: center;
       font-size: 0.75rem;
       color: var(--clr-text-muted);
-      margin-bottom: 14px;
+      margin-bottom: 18px;
     }
 
     /* ============================
@@ -608,6 +605,7 @@
       font-size: 0.82rem;
       font-weight: 700;
       color: var(--clr-accent);
+      cursor: pointer;
     }
     .lan-ip-box {
       display: flex;
@@ -640,7 +638,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
     .feature-card {
       background: var(--clr-surface);
@@ -683,12 +681,448 @@
     }
 
     /* ============================
+       RULES & HOW TO PLAY SECTION
+       ============================ */
+    .rules-section {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border-light);
+      border-radius: var(--radius-xl);
+      padding: 36px 32px;
+      margin-bottom: 40px;
+      box-shadow: var(--shadow-card);
+    }
+    .rules-section-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .badge-rules {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--clr-primary);
+      background: rgba(192,57,43,0.08);
+      padding: 5px 14px;
+      border-radius: var(--radius-pill);
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    .rules-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--clr-text);
+      margin-bottom: 8px;
+    }
+    .rules-subtitle {
+      color: var(--clr-text-secondary);
+      font-size: 0.92rem;
+      max-width: 600px;
+      margin: 0 auto 18px;
+    }
+    .btn-rules-modal-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(44,115,210,0.08);
+      color: var(--clr-accent);
+      border: 1.5px solid rgba(44,115,210,0.25);
+      border-radius: var(--radius-pill);
+      padding: 9px 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-rules-modal-trigger:hover {
+      background: var(--clr-accent);
+      color: #fff;
+      border-color: var(--clr-accent);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(44,115,210,0.25);
+    }
+
+    .rules-phases-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .rule-card {
+      background: var(--clr-surface-alt);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      position: relative;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .rule-card:hover {
+      background: #fff;
+      border-color: var(--clr-border-light);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .rule-phase-badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      font-size: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+    }
+    .phase-1 { background: rgba(192,57,43,0.12); color: var(--clr-primary); }
+    .phase-2 { background: rgba(243,156,18,0.12); color: #D68910; }
+    .phase-3 { background: rgba(44,115,210,0.12); color: var(--clr-accent); }
+    .phase-4 { background: rgba(39,174,96,0.12); color: var(--clr-success); }
+
+    .rule-icon-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+    .phase-icon-1 { background: linear-gradient(135deg, #C0392B, #E74C3C); }
+    .phase-icon-2 { background: linear-gradient(135deg, #F39C12, #E67E22); }
+    .phase-icon-3 { background: linear-gradient(135deg, #2C73D2, #5B9BF0); }
+    .phase-icon-4 { background: linear-gradient(135deg, #27AE60, #2ECC71); }
+
+    .rule-card-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--clr-text);
+      margin-bottom: 6px;
+    }
+    .rule-card-desc {
+      font-size: 0.84rem;
+      color: var(--clr-text-secondary);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .rule-card-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--clr-text-secondary);
+      margin-top: auto;
+    }
+    .rule-card-list li {
+      position: relative;
+      padding-left: 18px;
+      line-height: 1.45;
+    }
+    .rule-card-list li::before {
+      content: "•";
+      position: absolute;
+      left: 4px;
+      color: var(--clr-primary);
+      font-weight: bold;
+    }
+    .tag-yes {
+      background: rgba(39,174,96,0.15);
+      color: var(--clr-success);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .tag-no {
+      background: rgba(192,57,43,0.15);
+      color: var(--clr-primary);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .pro-tips-card {
+      background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .pro-tips-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(243,156,18,0.2);
+      color: #F1C40F;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.5rem;
+    }
+    .pro-tips-content { flex: 1; }
+    .pro-tips-content h4 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: #F1C40F;
+      margin-bottom: 4px;
+    }
+    .pro-tips-content p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+    }
+    .btn-jump-party {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--clr-primary);
+      color: #fff !important;
+      padding: 10px 18px;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      font-size: 0.82rem;
+      white-space: nowrap;
+      transition: var(--transition);
+      text-decoration: none !important;
+    }
+    .btn-jump-party:hover {
+      background: var(--clr-primary-light);
+      transform: translateY(-1px);
+    }
+
+    /* ============================
+       MODAL OVERLAY (RULES & LAN)
+       ============================ */
+    .landing-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+    .landing-modal-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .landing-modal {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 680px;
+      max-height: 86vh;
+      border-radius: var(--radius-xl);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalScaleIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .landing-modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--clr-border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .landing-modal-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .landing-modal-title h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--clr-text);
+    }
+    .landing-modal-close {
+      background: var(--clr-surface-alt);
+      color: var(--clr-text-secondary);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .landing-modal-close:hover {
+      background: var(--clr-border);
+      color: var(--clr-text);
+    }
+    .landing-modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .modal-section-callout {
+      background: rgba(44,115,210,0.08);
+      border-left: 4px solid var(--clr-accent);
+      padding: 12px 16px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.85rem;
+      color: var(--clr-text);
+      line-height: 1.5;
+    }
+    .rules-modal-step {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--clr-primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-detail h4 {
+      font-family: var(--font-display);
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--clr-text);
+      margin-bottom: 4px;
+    }
+    .step-detail p {
+      font-size: 0.84rem;
+      color: var(--clr-text-secondary);
+      line-height: 1.5;
+    }
+    .rule-subnote {
+      margin-top: 6px;
+      padding: 6px 10px;
+      background: var(--clr-surface-alt);
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem !important;
+    }
+    .modal-footer-cta {
+      margin-top: 10px;
+      padding-top: 16px;
+      border-top: 1px solid var(--clr-border-light);
+      display: flex;
+      justify-content: flex-end;
+    }
+    .btn-modal-action {
+      background: var(--clr-primary);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      font-weight: 800;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+    .btn-modal-action:hover {
+      background: var(--clr-primary-dark);
+      transform: translateY(-1px);
+    }
+
+    /* LAN modal steps */
+    .lan-steps-box {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .lan-step-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 0.85rem;
+      color: var(--clr-text-secondary);
+      line-height: 1.5;
+    }
+    .lan-step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #F39C12;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+    .lan-qr-container {
+      text-align: center;
+      padding: 16px;
+      background: var(--clr-surface-alt);
+      border-radius: var(--radius-md);
+      margin-top: 8px;
+    }
+    .lan-url-display {
+      font-family: 'Courier New', monospace;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--clr-text);
+      margin-top: 10px;
+    }
+
+    .landing-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      background: #1A1A2E;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      font-weight: 700;
+      font-size: 0.88rem;
+      z-index: 1200;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .landing-toast.hidden {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-50%) translateY(20px);
+    }
+
+    /* ============================
        FOOTER
        ============================ */
     .site-footer {
       background: #1A1A2E;
       color: rgba(255,255,255,0.6);
-      padding: 24px;
+      padding: 28px 24px;
       text-align: center;
       font-size: 0.78rem;
     }
@@ -696,14 +1130,14 @@
       font-family: var(--font-display);
       font-weight: 700;
       color: rgba(255,255,255,0.85);
-      font-size: 0.9rem;
+      font-size: 1rem;
       letter-spacing: 2px;
       margin-bottom: 4px;
     }
     .footer-tagline {
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.4);
-      margin-bottom: 12px;
+      font-size: 0.74rem;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 14px;
     }
     .footer-links {
       display: flex;
@@ -713,9 +1147,9 @@
       list-style: none;
     }
     .footer-links a {
-      color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.55);
       font-weight: 600;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       transition: var(--transition);
     }
     .footer-links a:hover {
@@ -739,14 +1173,23 @@
       .features-grid {
         grid-template-columns: 1fr;
       }
-      .hero-title {
-        font-size: 2.2rem;
-        letter-spacing: 3px;
+      .rules-phases-grid {
+        grid-template-columns: 1fr;
       }
-      .status-bar {
-        gap: 14px;
-        font-size: 0.7rem;
-        flex-wrap: wrap;
+      .rules-section {
+        padding: 24px 18px;
+      }
+      .pro-tips-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      .btn-jump-party {
+        width: 100%;
+        justify-content: center;
+      }
+      .hero-title {
+        font-size: 2.3rem;
+        letter-spacing: 3px;
       }
       .nav-links { display: none; }
       .lan-banner {
@@ -760,7 +1203,7 @@
     }
 
     @media (max-width: 480px) {
-      .hero-title { font-size: 1.8rem; }
+      .hero-title { font-size: 1.85rem; }
       .hero-cta-row { flex-direction: column; }
       .btn-hero { width: 100%; justify-content: center; }
     }
@@ -792,36 +1235,17 @@
       <span class="nav-brand-text">KATCHO</span>
     </div>
     <ul class="nav-links">
-      <li><a href="#" class="active">Lobby</a></li>
-      <li><a href="#party-rooms">Party Rooms</a></li>
-      <li><a href="#rules">Rules &amp; Guide</a></li>
-      <li><a href="#store">Store</a></li>
+      <li><a href="#party-rooms" class="active">Lobby</a></li>
+      <li><a href="#party-rooms" id="navPartyRoomsLink">Party Rooms</a></li>
+      <li><a href="#rules" id="navRulesLink">Rules &amp; Guide</a></li>
     </ul>
     <div class="nav-actions">
-      <button class="btn-nav-login" id="btnLogin">
-        <span class="material-symbols-rounded" style="font-size:18px;">login</span>
-        Login / Sign Up
-      </button>
+      <a href="#party-rooms" class="btn-nav-play" id="btnNavPlay">
+        <span class="material-symbols-rounded" style="font-size:18px;">sports_esports</span>
+        Enter Party Room
+      </a>
     </div>
   </nav>
-
-  <!-- ============================================ -->
-  <!-- LIVE STATUS BAR                              -->
-  <!-- ============================================ -->
-  <div class="status-bar">
-    <div class="stat-item">
-      <span class="stat-dot"></span>
-      <span id="statGamesActive">1,420 GAMES ACTIVE</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-dot orange"></span>
-      <span>99.6% UPTIME</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-dot blue"></span>
-      <span>AVG ROUND: 45s</span>
-    </div>
-  </div>
 
   <!-- ============================================ -->
   <!-- HERO SECTION                                 -->
@@ -844,21 +1268,31 @@
     </p>
 
     <div class="hero-cta-row animate-in delay-3">
-      <a href="#play" class="btn-hero btn-hero-primary">
+      <a href="#party-rooms" class="btn-hero btn-hero-primary">
         <span class="material-symbols-rounded" style="font-size:20px;">play_circle</span>
-        Play Online
+        Enter Party Rooms
       </a>
-      <a href="#" class="btn-hero btn-hero-outline">
-        <span class="material-symbols-rounded" style="font-size:20px;">download</span>
-        Get App (YTB)
+      <a href="#rules" class="btn-hero btn-hero-outline" id="btnHeroRules">
+        <span class="material-symbols-rounded" style="font-size:20px;">menu_book</span>
+        Rules &amp; Guide
       </a>
     </div>
   </section>
 
   <!-- ============================================ -->
-  <!-- MAIN CONTENT                                 -->
+  <!-- PARTY ROOMS SECTION                          -->
   <!-- ============================================ -->
-  <div class="main-container" id="play">
+  <div class="main-container" id="party-rooms">
+    <a id="play"></a>
+
+    <!-- PARTY ROOMS HEADER -->
+    <div class="party-rooms-header animate-in delay-2">
+      <span class="badge-select">MULTIPLAYER HUB</span>
+      <h2 class="party-section-heading">Party Rooms</h2>
+      <p class="party-section-sub">
+        Start a private match or enter a 4-letter PIN to jump right into your friend's game.
+      </p>
+    </div>
 
     <!-- STEP 1: CODENAME -->
     <div class="codename-section animate-in delay-3">
@@ -878,6 +1312,7 @@
           placeholder="e.g. Agent_Kabir"
           maxlength="18"
           autocomplete="nickname"
+          aria-label="YOUR DISPLAY NAME"
         />
       </div>
       <p class="codename-hint">
@@ -892,31 +1327,36 @@
       <!-- CREATE CARD -->
       <div class="action-card">
         <div class="card-header-row">
-          <span class="card-tag tag-red">Quick Game</span>
-          <span class="card-tag tag-outline">Advanced Room PIN</span>
+          <span class="card-tag tag-red">Host Match</span>
+          <span class="card-tag tag-outline">Private Room</span>
         </div>
-        <h3 class="card-title">Create New Match</h3>
-        <p class="card-desc">Start a game lobby for friends. Share a 4-letter code, customize round timers, and toggle secret word visibility.</p>
+        <h3 class="card-title">Host a Party Room</h3>
+        <p class="card-desc">Create a lobby for friends. Share a 4-letter code or QR code to launch your multiplayer match.</p>
 
         <div class="option-row">
           <span class="material-symbols-rounded">group</span>
-          <span>Players</span>
-          <span class="option-value">3 – 8 Players</span>
+          <span>Capacity</span>
+          <span class="option-value">2 – 8 Players</span>
         </div>
         <div class="option-row">
           <span class="material-symbols-rounded">menu_book</span>
-          <span>Word Lines</span>
-          <span class="option-value">1</span>
+          <span>Word Mode</span>
+          <span class="option-value" id="labelWordMode">1 Secret Word</span>
         </div>
-        <div class="mode-pills">
-          <button class="mode-pill active">1v1 (Duel)</button>
-          <button class="mode-pill">Teams</button>
-          <button class="mode-pill">2 Mode (Balanced)</button>
+        <div class="mode-pills" id="hostModePills">
+          <button type="button" class="mode-pill active" data-mode="1">
+            <span class="material-symbols-rounded" style="font-size:14px;">looks_one</span>
+            1 Word Mode
+          </button>
+          <button type="button" class="mode-pill" data-mode="2">
+            <span class="material-symbols-rounded" style="font-size:14px;">looks_two</span>
+            2 Words Mode
+          </button>
         </div>
 
-        <button class="btn-action btn-host" id="btnHostRoom">
+        <button class="btn-action btn-host" id="btnHostRoom" aria-label="🎮 Host New Room">
           <span class="material-symbols-rounded" style="font-size:20px;">rocket_launch</span>
-          Host New Room
+          Host Party Room
         </button>
       </div>
 
@@ -929,23 +1369,23 @@
           </span>
           <span class="card-tag tag-green">
             <span class="material-symbols-rounded" style="font-size:12px;">link</span>
-            Link
+            4-Letter PIN
           </span>
         </div>
-        <h3 class="card-title">Enter Game PIN</h3>
+        <h3 class="card-title">Enter Room PIN</h3>
         <p class="card-desc">Got a code from the host or a friend? Enter their 4-letter room code below to instantly jump in.</p>
 
         <div class="pin-inputs">
-          <input type="text" class="pin-char" maxlength="1" data-pin="0" />
-          <input type="text" class="pin-char" maxlength="1" data-pin="1" />
-          <input type="text" class="pin-char" maxlength="1" data-pin="2" />
-          <input type="text" class="pin-char" maxlength="1" data-pin="3" />
+          <input type="text" class="pin-char" maxlength="1" data-pin="0" inputmode="text" autocomplete="off" />
+          <input type="text" class="pin-char" maxlength="1" data-pin="1" inputmode="text" autocomplete="off" />
+          <input type="text" class="pin-char" maxlength="1" data-pin="2" inputmode="text" autocomplete="off" />
+          <input type="text" class="pin-char" maxlength="1" data-pin="3" inputmode="text" autocomplete="off" />
         </div>
-        <p class="pin-hint">Room codes automatically pre-fill to your session.</p>
+        <p class="pin-hint">Type all 4 characters or press Enter to join immediately.</p>
 
         <button class="btn-action btn-join" id="btnJoinRoom">
           <span class="material-symbols-rounded" style="font-size:20px;">meeting_room</span>
-          Join Room
+          Join Party Room
         </button>
       </div>
     </div>
@@ -958,7 +1398,7 @@
       <div class="lan-content">
         <div class="lan-title-row">
           <span class="lan-title">Local Hotspot / Offline LAN Mode</span>
-          <span class="lan-badge">Experimental</span>
+          <span class="lan-badge">Zero Data</span>
         </div>
         <p class="lan-desc">
           No cellular internet or mobile data? No problem. One player enables their mobile hotspot, others connect to it, and
@@ -966,11 +1406,11 @@
         </p>
         <a href="#" class="lan-link" id="linkShowLan">
           <span class="material-symbols-rounded" style="font-size:16px;">info</span>
-          Setup Instructions &amp; IP ↗
+          Setup Instructions &amp; QR Code ↗
         </a>
         <div class="lan-ip-box" id="lanIpBox">
           <span class="lan-ip-label">LAN</span>
-          <span class="lan-ip-value" id="lanIpDisplay">192.168.43.1:8080</span>
+          <span class="lan-ip-value" id="lanIpDisplay">127.0.0.1:8000</span>
         </div>
       </div>
     </div>
@@ -981,47 +1421,269 @@
         <div class="feature-icon-wrap feat-purple">
           <span class="material-symbols-rounded">bolt</span>
         </div>
-        <h4 class="feature-title">Fully Loaded Rounds</h4>
+        <h4 class="feature-title">High-Tempo Word Flash</h4>
         <p class="feature-desc">
-          With each round's progressive intensity, words are pre-sorted, flashcard sets and
-          even the host can import Deduction categories!
+          Sequences cycle twice at 3 seconds per word. Anti-cheat scratchpad lock tests pure memory retention!
         </p>
       </div>
       <div class="feature-card animate-in delay-2">
         <div class="feature-icon-wrap feat-teal">
           <span class="material-symbols-rounded">neurology</span>
         </div>
-        <h4 class="feature-title">Tier 2 Word Influence</h4>
+        <h4 class="feature-title">Truth-Locked Deduction</h4>
         <p class="feature-desc">
-          Engineered specifically for 5 to 11 games. Cold partner reads and idle-hidden clues keep every turn gripping.
+          Cryptographically locked verification prompts prevent lying or false bluffing. 100% verified gameplay.
         </p>
       </div>
       <div class="feature-card animate-in delay-3">
         <div class="feature-icon-wrap feat-indigo">
           <span class="material-symbols-rounded">shield</span>
         </div>
-        <h4 class="feature-title">Zero Data/Data Checkpoint</h4>
+        <h4 class="feature-title">Instant Zero-Install Play</h4>
         <p class="feature-desc">
-          No accounts, no email sign. Nickname slots are purely in-browser within 15 minutes of offline caching.
+          No accounts, passwords, or downloads required. Enter a nickname and join a room in 3 seconds.
         </p>
       </div>
     </div>
+
+    <!-- ============================================ -->
+    <!-- RULES & HOW TO PLAY SECTION                  -->
+    <!-- ============================================ -->
+    <section class="rules-section animate-in delay-2" id="rules">
+      <div class="rules-section-header">
+        <span class="badge-rules">GAMEPLAY MANUAL</span>
+        <h2 class="rules-title">How to Play KATCHO</h2>
+        <p class="rules-subtitle">
+          A high-stakes party battle of memory retention, social deduction, and cryptographic truth verification.
+        </p>
+        <button type="button" class="btn-rules-modal-trigger" id="btnOpenRulesModal">
+          <span class="material-symbols-rounded">menu_book</span>
+          Open Interactive Rules &amp; Strategy Guide
+        </button>
+      </div>
+
+      <div class="rules-phases-grid">
+        <!-- PHASE 1 -->
+        <div class="rule-card">
+          <div class="rule-phase-badge phase-1">PHASE 1</div>
+          <div class="rule-icon-circle phase-icon-1">
+            <span class="material-symbols-rounded">edit_note</span>
+          </div>
+          <h3 class="rule-card-title">Secret Word Lock-In</h3>
+          <p class="rule-card-desc">
+            Every player secretly writes and locks their custom words.
+          </p>
+          <ul class="rule-card-list">
+            <li><strong>1 or 2 Words Mode:</strong> For rooms under 7 players, host can enable 2 words per player for deeper mystery.</li>
+            <li><strong>Encrypted &amp; Private:</strong> Secret words are never visible to opponents during entry or lobby.</li>
+            <li><strong>Ready Check:</strong> Host starts the reveal sequence once everyone locks in their words.</li>
+          </ul>
+        </div>
+
+        <!-- PHASE 2 -->
+        <div class="rule-card">
+          <div class="rule-phase-badge phase-2">PHASE 2</div>
+          <div class="rule-icon-circle phase-icon-2">
+            <span class="material-symbols-rounded">visibility</span>
+          </div>
+          <h3 class="rule-card-title">The Visual Moderator</h3>
+          <p class="rule-card-desc">
+            Words flash rapidly across the central stage in a randomized sequence.
+          </p>
+          <ul class="rule-card-list">
+            <li><strong>2 Full Loops:</strong> The sequence flashes twice at 3 seconds per word. Keep your eyes glued!</li>
+            <li><strong>Anti-Cheat Lock:</strong> Private scratchpads are automatically locked during the flash so nobody can take live notes.</li>
+            <li><strong>Memory &amp; Association:</strong> Memorize the vocabulary and link words to players' personalities.</li>
+          </ul>
+        </div>
+
+        <!-- PHASE 3 -->
+        <div class="rule-card">
+          <div class="rule-phase-badge phase-3">PHASE 3</div>
+          <div class="rule-icon-circle phase-icon-3">
+            <span class="material-symbols-rounded">psychology</span>
+          </div>
+          <h3 class="rule-card-title">Accusations &amp; Truth-Lock</h3>
+          <p class="rule-card-desc">
+            Players take turns deducing who submitted which secret word.
+          </p>
+          <ul class="rule-card-list">
+            <li><strong>Make an Accusation:</strong> Pick any active player and enter the word you believe is theirs.</li>
+            <li><strong>Truth-Locked Verification:</strong> The accused receives an immutable server check: <span class="tag-yes">YES (Correct)</span> or <span class="tag-no">NO (Wrong)</span>. Zero lying is possible!</li>
+            <li><strong>Turn Outcome:</strong> Correct guess keeps your turn! Wrong guess passes your turn to the accused.</li>
+          </ul>
+        </div>
+
+        <!-- PHASE 4 -->
+        <div class="rule-card">
+          <div class="rule-phase-badge phase-4">PHASE 4</div>
+          <div class="rule-icon-circle phase-icon-4">
+            <span class="material-symbols-rounded">emoji_events</span>
+          </div>
+          <h3 class="rule-card-title">Victory &amp; The Unmasking</h3>
+          <p class="rule-card-desc">
+            The last surviving uncaught player wins the crown and match honors.
+          </p>
+          <ul class="rule-card-list">
+            <li><strong>Full Reveal Table:</strong> Game over reveals every player's hidden words, accuracy rates, and elimination chain.</li>
+            <li><strong>Unanimous Draw Vote:</strong> In close stalemates, the turn player can call a draw vote requiring 100% agreement.</li>
+            <li><strong>Play Again:</strong> Reset the room in 1 tap with the same players for the next round!</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PRO TIPS BANNER -->
+      <div class="pro-tips-card">
+        <div class="pro-tips-icon">
+          <span class="material-symbols-rounded">lightbulb</span>
+        </div>
+        <div class="pro-tips-content">
+          <h4>Pro Deduction Strategy</h4>
+          <p>
+            Watch eye movements during Phase 2. Players often react subtly when their own secret word flashes! Use turn passes strategically to force opponents into making risky guesses.
+          </p>
+        </div>
+        <a href="#party-rooms" class="btn-jump-party">
+          <span class="material-symbols-rounded">rocket_launch</span>
+          Jump to Party Rooms
+        </a>
+      </div>
+    </section>
+
   </div>
+
+  <!-- ============================================ -->
+  <!-- RULES MODAL OVERLAY                          -->
+  <!-- ============================================ -->
+  <div class="landing-modal-overlay hidden" id="modalRulesLanding">
+    <div class="landing-modal">
+      <div class="landing-modal-header">
+        <div class="landing-modal-title">
+          <span class="material-symbols-rounded" style="color:var(--clr-primary); font-size:24px;">menu_book</span>
+          <h3>KATCHO Official Rules &amp; Strategy Guide</h3>
+        </div>
+        <button type="button" class="landing-modal-close" id="btnCloseRulesModal" aria-label="Close Rules">&times;</button>
+      </div>
+      <div class="landing-modal-body">
+        <div class="modal-section-callout">
+          <strong>🎮 Object of the Game:</strong> Memorize the flashing words presented by the Visual Moderator, deduce which opponent wrote which secret word, and catch all opponents before you are unmasked!
+        </div>
+
+        <div class="rules-modal-step">
+          <div class="step-circle">1</div>
+          <div class="step-detail">
+            <h4>Phase 1: Word Entry &amp; Mode Selection</h4>
+            <p>Each player privately submits their secret words into the encrypted terminal. The host chooses between <strong>1 Word Mode</strong> (fast, intense) or <strong>2 Words Mode</strong> (double mystery for 2–6 players). No other player can see what you write.</p>
+          </div>
+        </div>
+
+        <div class="rules-modal-step">
+          <div class="step-circle">2</div>
+          <div class="step-detail">
+            <h4>Phase 2: Visual Moderator Flash (Anti-Cheat Locked)</h4>
+            <p>All secret words are shuffled and flashed sequentially on the central stage (3 seconds per word). The sequence repeats twice. During this phase, all scratchpads are automatically locked to prevent real-time typing. Sharp memory is your only weapon!</p>
+          </div>
+        </div>
+
+        <div class="rules-modal-step">
+          <div class="step-circle">3</div>
+          <div class="step-detail">
+            <h4>Phase 3: Turn Guessing &amp; Truth-Lock</h4>
+            <p>Active player chooses an opponent and calls out their guessed word. The accused sees an unhackable prompt: <strong>YES (That's my word)</strong> or <strong>NO (Not my word)</strong>. The system checks against the encrypted backend so players cannot cheat or bluff their own word!</p>
+            <p class="rule-subnote">✅ If Correct: Accused is eliminated (or loses that word). Guesser keeps their turn!<br>❌ If Wrong: Turn passes immediately to the accused player.</p>
+          </div>
+        </div>
+
+        <div class="rules-modal-step">
+          <div class="step-circle">4</div>
+          <div class="step-detail">
+            <h4>Phase 4: Match Victory &amp; Reveal Table</h4>
+            <p>The last surviving uncaught player wins! A complete end-game reveal table unmasks every player's submitted words, deduction accuracy scores, and timestamps.</p>
+          </div>
+        </div>
+
+        <div class="rules-modal-step">
+          <div class="step-circle">⭐</div>
+          <div class="step-detail">
+            <h4>Special Actions: Turn Pass &amp; Draw Vote</h4>
+            <p><strong>Pass Turn:</strong> If you are unsure of any word, pass your turn randomly to avoid handing an opponent momentum.<br>
+            <strong>Call Draw:</strong> In prolonged deadlocks, trigger an unanimous vote where every player must agree to end in a gentleman's draw.</p>
+          </div>
+        </div>
+
+        <div class="modal-footer-cta">
+          <button type="button" class="btn-modal-action" id="btnModalGoToPlay">
+            <span class="material-symbols-rounded">play_circle</span>
+            Got It! Enter Party Room Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- LAN / HOTSPOT MODAL OVERLAY                  -->
+  <!-- ============================================ -->
+  <div class="landing-modal-overlay hidden" id="modalLanLanding">
+    <div class="landing-modal">
+      <div class="landing-modal-header">
+        <div class="landing-modal-title">
+          <span class="material-symbols-rounded" style="color:#F39C12; font-size:24px;">wifi_tethering</span>
+          <h3>Local Hotspot &amp; Offline LAN Play</h3>
+        </div>
+        <button type="button" class="landing-modal-close" id="btnCloseLanModal" aria-label="Close LAN info">&times;</button>
+      </div>
+      <div class="landing-modal-body">
+        <p style="color:var(--clr-text-secondary); margin-bottom:16px;">
+          No Wi-Fi router or cellular internet? KATCHO runs 100% locally over a portable mobile hotspot with zero lag and zero data usage!
+        </p>
+
+        <div class="lan-steps-box">
+          <div class="lan-step-item">
+            <span class="lan-step-num">1</span>
+            <div><strong>Host Turns on Hotspot:</strong> Enable your phone or laptop's portable Wi-Fi Hotspot. No cellular mobile data needs to be turned on.</div>
+          </div>
+          <div class="lan-step-item">
+            <span class="lan-step-num">2</span>
+            <div><strong>Friends Connect:</strong> Have all friends join the host's Wi-Fi hotspot network.</div>
+          </div>
+          <div class="lan-step-item">
+            <span class="lan-step-num">3</span>
+            <div><strong>Scan QR or Enter IP:</strong> Friends scan the QR code below or open the LAN IP in their phone's browser (Chrome, Safari, Firefox).</div>
+          </div>
+        </div>
+
+        <div class="lan-qr-container">
+          <img id="landingQrImage" src="" alt="LAN Hotspot QR Code" style="display:none; max-width:200px; margin:0 auto; border-radius:12px; box-shadow:var(--shadow-md);" />
+          <div class="lan-url-display" id="landingLanUrlText">Loading LAN IP...</div>
+        </div>
+
+        <div class="modal-footer-cta">
+          <button type="button" class="btn-modal-action" id="btnModalCloseLan">
+            Close Instructions
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="landingToast" class="landing-toast hidden"></div>
 
   <!-- ============================================ -->
   <!-- FOOTER                                       -->
   <!-- ============================================ -->
   <footer class="site-footer">
     <div class="footer-brand">KATCHO</div>
-    <p class="footer-tagline">— Real-time Social Deduction & Memory Party Game —<br>Created with ❤️ by KABIR VYAS</p>
+    <p class="footer-tagline">— Real-time Social Deduction &amp; Memory Party Game —<br>Created with ❤️ by KABIR VYAS</p>
     <ul class="footer-links">
-      <li><a href="#">Rules</a></li>
+      <li><a href="#rules" id="footerRulesLink">Rules &amp; Guide</a></li>
       <li class="dot"></li>
-      <li><a href="#">Host Quote</a></li>
+      <li><a href="#party-rooms">Party Rooms</a></li>
       <li class="dot"></li>
-      <li><a href="#">LAN FAQ</a></li>
+      <li><a href="#" id="footerLanLink">Hotspot / LAN FAQ</a></li>
       <li class="dot"></li>
-      <li><a href="#">Privacy</a></li>
+      <li><a href="/play">Play Online</a></li>
     </ul>
   </footer>
 
@@ -1029,15 +1691,42 @@
   <!-- SCRIPTS                                      -->
   <!-- ============================================ -->
   <script>
-    // --- Load saved codename from localStorage ---
+    // --- Toast notification helper ---
+    function showLandingToast(msg) {
+      const toast = document.getElementById('landingToast');
+      toast.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+
+    // --- Load saved codename from storage ---
     const codenameInput = document.getElementById('inputCodename');
-    const savedName = localStorage.getItem('katcho_player_name');
+    const savedName = sessionStorage.getItem('katcho_player_name') || localStorage.getItem('katcho_player_name');
     if (savedName) codenameInput.value = savedName;
     codenameInput.addEventListener('input', () => {
-      localStorage.setItem('katcho_player_name', codenameInput.value.trim());
+      const val = codenameInput.value.trim();
+      localStorage.setItem('katcho_player_name', val);
+      sessionStorage.setItem('katcho_player_name', val);
     });
 
-    // --- PIN Input auto-advance ---
+    // --- Word Mode Toggle Pills in Host Card ---
+    let selectedMode = 1;
+    const modePills = document.querySelectorAll('#hostModePills .mode-pill');
+    const labelWordMode = document.getElementById('labelWordMode');
+    modePills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        modePills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        selectedMode = parseInt(pill.dataset.mode || '1', 10);
+        if (labelWordMode) {
+          labelWordMode.textContent = selectedMode === 2 ? '2 Secret Words' : '1 Secret Word';
+        }
+      });
+    });
+
+    // --- PIN Input auto-advance & paste handler ---
     const pinInputs = document.querySelectorAll('.pin-char');
     pinInputs.forEach((input, idx) => {
       input.addEventListener('input', (e) => {
@@ -1051,56 +1740,187 @@
         if (e.key === 'Backspace' && !e.target.value && idx > 0) {
           pinInputs[idx - 1].focus();
         }
+        if (e.key === 'Enter') {
+          document.getElementById('btnJoinRoom').click();
+        }
+      });
+      input.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const text = (e.clipboardData || window.clipboardData).getData('text').trim().toUpperCase();
+        if (text) {
+          const chars = text.replace(/[^A-Z0-9]/g, '').slice(0, 4);
+          chars.split('').forEach((ch, i) => {
+            if (pinInputs[i]) pinInputs[i].value = ch;
+          });
+          if (chars.length >= 4) {
+            document.getElementById('btnJoinRoom').focus();
+          } else if (pinInputs[chars.length]) {
+            pinInputs[chars.length].focus();
+          }
+        }
       });
     });
 
-    // --- Join Room ---
+    // --- Enter key on Codename input ---
+    codenameInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const code = Array.from(pinInputs).map(i => i.value).join('').toUpperCase();
+        if (code.length >= 4) {
+          document.getElementById('btnJoinRoom').click();
+        } else {
+          document.getElementById('btnHostRoom').click();
+        }
+      }
+    });
+
+    // --- Join Party Room ---
     document.getElementById('btnJoinRoom').addEventListener('click', () => {
       const code = Array.from(pinInputs).map(i => i.value).join('').toUpperCase();
       if (code.length < 4) {
-        alert('Please enter a valid 4-character room code.');
+        showLandingToast('Please enter a valid 4-character room code.');
+        pinInputs[0].focus();
         return;
       }
-      const name = codenameInput.value.trim();
-      if (name) localStorage.setItem('katcho_player_name', name);
-      // Navigate to game page with room code
-      window.location.href = `/play?join=${code}`;
+      const name = codenameInput.value.trim() || 'Player';
+      localStorage.setItem('katcho_player_name', name);
+      sessionStorage.setItem('katcho_player_name', name);
+      // Navigate to game page with join parameters for instant room entry
+      window.location.href = `/play?join=${encodeURIComponent(code)}&name=${encodeURIComponent(name)}&auto=1`;
     });
 
-    // --- Host Room ---
+    // --- Host Party Room ---
     document.getElementById('btnHostRoom').addEventListener('click', () => {
-      const name = codenameInput.value.trim();
-      if (name) localStorage.setItem('katcho_player_name', name);
-      window.location.href = '/play';
+      const name = codenameInput.value.trim() || 'Host';
+      localStorage.setItem('katcho_player_name', name);
+      sessionStorage.setItem('katcho_player_name', name);
+      // Navigate to game page with host & mode parameters for instant room creation
+      window.location.href = `/play?host=1&name=${encodeURIComponent(name)}&mode=${selectedMode}`;
     });
 
-    // --- Fetch LAN info ---
+    // --- Rules Modal Controls ---
+    const modalRules = document.getElementById('modalRulesLanding');
+    function openRulesModal() {
+      if (modalRules) {
+        modalRules.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    function closeRulesModal() {
+      if (modalRules) {
+        modalRules.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    }
+
+    document.getElementById('btnOpenRulesModal').addEventListener('click', openRulesModal);
+    document.getElementById('btnCloseRulesModal').addEventListener('click', closeRulesModal);
+
+    const btnHeroRules = document.getElementById('btnHeroRules');
+    if (btnHeroRules) {
+      btnHeroRules.addEventListener('click', (e) => {
+        e.preventDefault();
+        openRulesModal();
+      });
+    }
+
+    const navRulesLink = document.getElementById('navRulesLink');
+    if (navRulesLink) {
+      navRulesLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        openRulesModal();
+      });
+    }
+
+    const footerRulesLink = document.getElementById('footerRulesLink');
+    if (footerRulesLink) {
+      footerRulesLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        openRulesModal();
+      });
+    }
+
+    document.getElementById('btnModalGoToPlay').addEventListener('click', () => {
+      closeRulesModal();
+      const partySec = document.getElementById('party-rooms');
+      if (partySec) {
+        partySec.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => codenameInput.focus(), 400);
+      }
+    });
+
+    // --- LAN / Hotspot Modal Controls ---
+    const modalLan = document.getElementById('modalLanLanding');
+    const linkShowLan = document.getElementById('linkShowLan');
+    const footerLanLink = document.getElementById('footerLanLink');
+    const btnCloseLanModal = document.getElementById('btnCloseLanModal');
+    const btnModalCloseLan = document.getElementById('btnModalCloseLan');
+
+    function openLanModal() {
+      if (modalLan) {
+        modalLan.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    function closeLanModal() {
+      if (modalLan) {
+        modalLan.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    }
+
+    if (linkShowLan) {
+      linkShowLan.addEventListener('click', (e) => {
+        e.preventDefault();
+        openLanModal();
+      });
+    }
+    if (footerLanLink) {
+      footerLanLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        openLanModal();
+      });
+    }
+    if (btnCloseLanModal) btnCloseLanModal.addEventListener('click', closeLanModal);
+    if (btnModalCloseLan) btnModalCloseLan.addEventListener('click', closeLanModal);
+
+    // --- Dismiss modals on overlay click or Escape key ---
+    window.addEventListener('click', (e) => {
+      if (e.target === modalRules) closeRulesModal();
+      if (e.target === modalLan) closeLanModal();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeRulesModal();
+        closeLanModal();
+      }
+    });
+
+    // --- Fetch LAN info for display and QR code ---
     async function loadLanInfo() {
       try {
         const resp = await fetch('/api/lan-info');
         const data = await resp.json();
-        if (data && data.lan_url) {
-          document.getElementById('lanIpDisplay').textContent =
-            data.lan_url.replace('http://', '');
+        if (data) {
+          if (data.lan_url) {
+            const displayEl = document.getElementById('lanIpDisplay');
+            if (displayEl) displayEl.textContent = data.lan_url.replace('http://', '');
+            const modalUrlEl = document.getElementById('landingLanUrlText');
+            if (modalUrlEl) modalUrlEl.textContent = data.lan_url;
+          }
+          if (data.qr_data_url) {
+            const qrImg = document.getElementById('landingQrImage');
+            if (qrImg) {
+              qrImg.src = data.qr_data_url;
+              qrImg.style.display = 'block';
+            }
+          }
         }
       } catch (e) {
         // Silently fail - LAN info is optional
       }
     }
     loadLanInfo();
-
-    // --- Simulated live stats counter ---
-    function animateCounter() {
-      const el = document.getElementById('statGamesActive');
-      let base = 1420;
-      setInterval(() => {
-        base += Math.floor(Math.random() * 5) - 2;
-        if (base < 1380) base = 1380;
-        if (base > 1500) base = 1500;
-        el.textContent = base.toLocaleString() + ' GAMES ACTIVE';
-      }, 4000);
-    }
-    animateCounter();
 
     // --- Intersection Observer for scroll animations ---
     const observer = new IntersectionObserver((entries) => {
@@ -1111,7 +1931,7 @@
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.feature-card, .action-card, .lan-banner').forEach(el => {
+    document.querySelectorAll('.feature-card, .action-card, .lan-banner, .rules-section, .party-rooms-header').forEach(el => {
       observer.observe(el);
     });
   </script>

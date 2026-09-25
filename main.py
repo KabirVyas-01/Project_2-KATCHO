@@ -73,19 +73,23 @@ def get_all_local_ips() -> List[str]:
 
 def generate_qr_base64(url: str) -> str:
     """Generates a Base64-encoded PNG Data URL of a QR code."""
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_M,
-        box_size=8,
-        border=2,
-    )
-    qr.add_data(url)
-    qr.make(fit=True)
-    img = qr.make_image(fill_color="#1E272E", back_color="#FFFFFF")
-    buf = io.BytesIO()
-    img.save(buf, format="PNG")
-    b64_str = base64.b64encode(buf.getvalue()).decode("utf-8")
-    return f"data:image/png;base64,{b64_str}"
+    try:
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_M,
+            box_size=8,
+            border=2,
+        )
+        qr.add_data(url)
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="#1E272E", back_color="#FFFFFF")
+        buf = io.BytesIO()
+        img.save(buf)
+        b64_str = base64.b64encode(buf.getvalue()).decode("utf-8")
+        return f"data:image/png;base64,{b64_str}"
+    except Exception as e:
+        logger.warning(f"QR generation error: {e}")
+        return ""
 
 
 async def broadcast_room_state(room_code: str, custom_event: Optional[dict] = None):
@@ -125,25 +129,38 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
 @app.get("/")
+async def get_root(play: Optional[str] = None, view: Optional[str] = None):
+    """Serves the Home landing page by default, or game SPA if requested."""
+    if play or view in ("app", "game"):
+        index_file = os.path.join(STATIC_DIR, "index.html")
+        if os.path.exists(index_file):
+            return FileResponse(index_file)
+    landing_file = os.path.join(STATIC_DIR, "landing.html")
+    if os.path.exists(landing_file):
+        return FileResponse(landing_file)
+    index_file = os.path.join(STATIC_DIR, "index.html")
+    if os.path.exists(index_file):
+        return FileResponse(index_file)
+    return HTMLResponse("<h1>KATCHO game UI not found.</h1>")
+
+
+@app.get("/play")
+async def get_game():
+    """Serves the main KATCHO interactive application SPA."""
+    index_file = os.path.join(STATIC_DIR, "index.html")
+    if os.path.exists(index_file):
+        return FileResponse(index_file)
+    return HTMLResponse("<h1>KATCHO game UI not found. Please add static/index.html</h1>")
+
+
+@app.get("/home")
+@app.get("/landing")
 async def get_landing():
     """Serves the KATCHO Home & Pre-Game Lobby landing page."""
     landing_file = os.path.join(STATIC_DIR, "landing.html")
     if os.path.exists(landing_file):
         return FileResponse(landing_file)
-    # Fallback to index.html if landing page doesn't exist
-    index_file = os.path.join(STATIC_DIR, "index.html")
-    if os.path.exists(index_file):
-        return FileResponse(index_file)
-    return HTMLResponse("<h1>KATCHO backend is running. Please add static/landing.html</h1>")
-
-
-@app.get("/play")
-async def get_game():
-    """Serves the main KATCHO game UI (the original index.html)."""
-    index_file = os.path.join(STATIC_DIR, "index.html")
-    if os.path.exists(index_file):
-        return FileResponse(index_file)
-    return HTMLResponse("<h1>KATCHO game UI not found. Please add static/index.html</h1>")
+    return await get_game()
 
 
 @app.get("/manifest.json")
@@ -210,15 +227,23 @@ async def websocket_endpoint(websocket: WebSocket, room_code: str, player_id: st
                 continue
 
             action = msg.get("action")
+            incoming_room = msg.get("room_code")
+            if incoming_room and incoming_room in gm.rooms:
+                room_code = incoming_room
             logger.info(f"Action '{action}' from player {player_id} in {room_code}")
 
             if action == "create_room":
                 player_name = msg.get("name", "Host")
                 room, player = gm.create_room(player_name, player_id)
-                if room.code not in active_connections:
-                    active_connections[room.code] = {}
-                active_connections[room.code][player_id] = websocket
-                await broadcast_room_state(room.code, {"type": "room_created", "room_code": room.code})
+                if room_code != room.code and room_code in active_connections and player_id in active_connections[room_code]:
+                    active_connections[room_code].pop(player_id, None)
+                    if not active_connections[room_code]:
+                        active_connections.pop(room_code, None)
+                room_code = room.code
+                if room_code not in active_connections:
+                    active_connections[room_code] = {}
+                active_connections[room_code][player_id] = websocket
+                await broadcast_room_state(room_code, {"type": "room_created", "room_code": room_code})
 
             elif action == "join_room":
                 target_room = msg.get("room_code", room_code).strip().upper()
@@ -230,12 +255,21 @@ async def websocket_endpoint(websocket: WebSocket, room_code: str, player_id: st
                         "message": err_msg
                     }))
                 else:
-                    if target_room not in active_connections:
-                        active_connections[target_room] = {}
-                    active_connections[target_room][player_id] = websocket
-                    await broadcast_room_state(target_room)
+                    if room_code != target_room and room_code in active_connections and player_id in active_connections[room_code]:
+                        active_connections[room_code].pop(player_id, None)
+                        if not active_connections[room_code]:
+                            active_connections.pop(room_code, None)
+                    room_code = target_room
+                    if room_code not in active_connections:
+                        active_connections[room_code] = {}
+                    active_connections[room_code][player_id] = websocket
+                    await broadcast_room_state(room_code)
 
             elif action == "set_word_mode":
+                # Ensure room_code matches room
+                incoming_room = msg.get("room_code")
+                if incoming_room and incoming_room in gm.rooms:
+                    room_code = incoming_room
                 count = int(msg.get("words_per_player", 1))
                 success, reason = gm.set_word_mode(room_code, player_id, count)
                 if not success:
@@ -399,7 +433,7 @@ if __name__ == "__main__":
         except Exception:
             pass
     local_ip = get_local_ip()
-    port = 8000
+    port = int(os.environ.get("PORT", 8000))
     print("\n" + "=" * 60)
     print("  [GAME] KATCHO - Multiplayer Social Deduction Party Game")
     print("  [AUTHOR] Created by KABIR VYAS")
@@ -407,4 +441,4 @@ if __name__ == "__main__":
     print(f"  -> Local URL:   http://localhost:{port}")
     print(f"  -> LAN / Wi-Fi: http://{local_ip}:{port}")
     print("=" * 60 + "\n")
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
