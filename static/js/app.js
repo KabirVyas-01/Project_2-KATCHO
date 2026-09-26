@@ -135,9 +135,10 @@
     btnVoteDisagree: document.getElementById('btnVoteDisagree'),
 
     modalLanInfo: document.getElementById('modalLanInfo'),
-    qrCodeImage: document.getElementById('qrCodeImage'),
-    inputLanUrl: document.getElementById('inputLanUrl'),
+    lanUrlDisplay: document.getElementById('lanUrlDisplay'),
+    lanUrlText: document.getElementById('lanUrlText'),
     btnCopyLanUrl: document.getElementById('btnCopyLanUrl'),
+    lanModeNote: document.getElementById('lanModeNote'),
     btnCloseLanModal: document.getElementById('btnCloseLanModal'),
 
     // Install / Download PWA Modal Elements
@@ -824,12 +825,19 @@
     try {
       const res = await fetch('/api/lan-info');
       const data = await res.json();
-      if (data && data.qr_data_url) {
-        els.qrCodeImage.src = data.qr_data_url;
-        els.inputLanUrl.value = data.lan_url;
+      if (data && data.lan_url) {
+        if (els.lanUrlText) els.lanUrlText.textContent = data.lan_url;
+        if (els.lanModeNote) {
+          if (data.is_cloud) {
+            els.lanModeNote.textContent = '🌐 Online mode — share this link with friends to play together anywhere!';
+          } else {
+            els.lanModeNote.textContent = '📡 Hotspot mode — friends join your Wi-Fi/hotspot then open this address in their browser.';
+          }
+        }
       }
     } catch (e) {
       console.warn('LAN info fetch failed:', e);
+      if (els.lanUrlText) els.lanUrlText.textContent = window.location.origin;
     }
   }
 
@@ -1091,8 +1099,11 @@
 
     els.btnCopyLanUrl.addEventListener('click', () => {
       sounds.click();
-      navigator.clipboard.writeText(els.inputLanUrl.value).then(() => {
-        showToast('Hotspot URL copied!', 'success');
+      const url = els.lanUrlText ? els.lanUrlText.textContent : window.location.origin;
+      navigator.clipboard.writeText(url).then(() => {
+        showToast('📋 Link copied to clipboard!', 'success');
+      }).catch(() => {
+        showToast(url, 'info');
       });
     });
 

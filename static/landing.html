@@ -1674,13 +1674,17 @@
           </div>
           <div class="lan-step-item">
             <span class="lan-step-num">3</span>
-            <div><strong>Scan QR or Enter IP:</strong> Friends scan the QR code below or open the LAN IP in their phone's browser (Chrome, Safari, Firefox).</div>
+            <div><strong>Type the Address:</strong> Everyone opens a browser on their phone and types the address shown below. No internet or mobile data needed!</div>
           </div>
         </div>
 
         <div class="lan-qr-container">
-          <img id="landingQrImage" src="" alt="LAN Hotspot QR Code" style="display:none; max-width:200px; margin:0 auto; border-radius:12px; box-shadow:var(--shadow-md);" />
-          <div class="lan-url-display" id="landingLanUrlText">Loading LAN IP...</div>
+          <div id="lanUrlDisplayBox" style="background:#0F1117; border-radius:10px; padding:14px 16px; margin-bottom:12px; display:flex; align-items:center; gap:10px;">
+            <span style="font-size:1.1rem;">🔗</span>
+            <span id="landingLanUrlText" style="font-family:'Courier New',monospace; font-size:0.92rem; font-weight:700; color:#2ECC71; flex:1; word-break:break-all;">Loading...</span>
+            <button id="btnLandingCopyUrl" style="flex-shrink:0; padding:6px 14px; background:var(--clr-accent); color:#fff; border:none; border-radius:8px; font-weight:700; font-size:0.8rem; cursor:pointer;">Copy</button>
+          </div>
+          <p id="landingLanModeNote" style="font-size:0.78rem; color:var(--clr-text-muted); text-align:center; margin:0;"></p>
         </div>
 
         <div class="modal-footer-cta">
@@ -1998,28 +2002,39 @@
       }
     });
 
-    // --- Fetch LAN info for display and QR code ---
+    // --- Fetch LAN info for display ---
     async function loadLanInfo() {
       try {
         const resp = await fetch('/api/lan-info');
         const data = await resp.json();
         if (data) {
-          if (data.lan_url) {
-            const displayEl = document.getElementById('lanIpDisplay');
-            if (displayEl) displayEl.textContent = data.lan_url.replace('http://', '');
-            const modalUrlEl = document.getElementById('landingLanUrlText');
-            if (modalUrlEl) modalUrlEl.textContent = data.lan_url;
+          const urlEl = document.getElementById('landingLanUrlText');
+          const noteEl = document.getElementById('landingLanModeNote');
+          const copyBtn = document.getElementById('btnLandingCopyUrl');
+
+          if (urlEl && data.lan_url) {
+            urlEl.textContent = data.lan_url;
           }
-          if (data.qr_data_url) {
-            const qrImg = document.getElementById('landingQrImage');
-            if (qrImg) {
-              qrImg.src = data.qr_data_url;
-              qrImg.style.display = 'block';
-            }
+          if (noteEl) {
+            noteEl.textContent = data.is_cloud
+              ? '🌐 Online mode — share this link with friends to play together anywhere!'
+              : '📡 Hotspot mode — friends join your Wi-Fi/hotspot then type this address in their browser.';
+          }
+          if (copyBtn) {
+            copyBtn.addEventListener('click', () => {
+              const url = urlEl ? urlEl.textContent : '';
+              if (url) {
+                navigator.clipboard.writeText(url).then(() => {
+                  showLandingToast('📋 Link copied!');
+                }).catch(() => showLandingToast(url));
+              }
+            });
           }
         }
       } catch (e) {
         // Silently fail - LAN info is optional
+        const urlEl = document.getElementById('landingLanUrlText');
+        if (urlEl) urlEl.textContent = window.location.origin;
       }
     }
     loadLanInfo();

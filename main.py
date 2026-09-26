@@ -5,9 +5,7 @@ Branding: Created by KABIR VYAS
 """
 
 import os
-import io
 import json
-import base64
 import socket
 import logging
 from typing import Dict, Set, Optional, List
@@ -16,7 +14,6 @@ from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-import qrcode
 
 from game_manager import GameManager, GamePhase
 
@@ -71,25 +68,9 @@ def get_all_local_ips() -> List[str]:
     return list(ips) if ips else [primary]
 
 
-def generate_qr_base64(url: str) -> str:
-    """Generates a Base64-encoded PNG Data URL of a QR code."""
-    try:
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_M,
-            box_size=8,
-            border=2,
-        )
-        qr.add_data(url)
-        qr.make(fit=True)
-        img = qr.make_image(fill_color="#1E272E", back_color="#FFFFFF")
-        buf = io.BytesIO()
-        img.save(buf)
-        b64_str = base64.b64encode(buf.getvalue()).decode("utf-8")
-        return f"data:image/png;base64,{b64_str}"
-    except Exception as e:
-        logger.warning(f"QR generation error: {e}")
-        return ""
+def get_public_url() -> str:
+    """Returns the public Render URL if deployed, otherwise empty string."""
+    return os.environ.get("RENDER_EXTERNAL_URL", "").rstrip("/")
 
 
 async def broadcast_room_state(room_code: str, custom_event: Optional[dict] = None):
@@ -184,17 +165,28 @@ async def get_service_worker():
 
 @app.get("/api/lan-info")
 async def get_lan_info(port: int = 8000):
-    local_ip = get_local_ip()
-    all_ips = get_all_local_ips()
-    lan_url = f"http://{local_ip}:{port}"
-    qr_data = generate_qr_base64(lan_url)
+    public_url = get_public_url()
+    is_cloud = bool(public_url)
+
+    if is_cloud:
+        # Running on Render — return the public URL
+        lan_url = public_url
+        local_ip = public_url.replace("https://", "").replace("http://", "")
+        all_ips = [local_ip]
+        actual_port = 443
+    else:
+        # Running locally — return the LAN IP for hotspot play
+        local_ip = get_local_ip()
+        all_ips = get_all_local_ips()
+        actual_port = int(os.environ.get("PORT", port))
+        lan_url = f"http://{local_ip}:{actual_port}"
 
     return JSONResponse({
         "local_ip": local_ip,
         "all_ips": all_ips,
-        "port": port,
+        "port": actual_port,
         "lan_url": lan_url,
-        "qr_data_url": qr_data,
+        "is_cloud": is_cloud,
         "title": "KATCHO",
         "author": "KABIR VYAS",
     })

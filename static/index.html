@@ -53,8 +53,8 @@
         </button>
 
         <!-- Action Icons -->
-        <button id="btnLanModal" class="btn-icon" title="LAN / Hotspot QR Code" aria-label="Hotspot QR">
-          📱
+        <button id="btnLanModal" class="btn-icon" title="Offline Hotspot Play" aria-label="Hotspot Play">
+          📡
         </button>
         <button id="btnSoundToggle" class="btn-icon" title="Toggle Sound" aria-label="Toggle Sound">
           🔊
@@ -561,39 +561,43 @@
   </div>
 
 
-  <!-- 3. LAN & HOTSPOT QR CODE MODAL -->
+  <!-- 3. LAN & HOTSPOT OFFLINE PLAY MODAL -->
   <div id="modalLanInfo" class="modal-overlay hidden">
     <div class="modal-card lan-modal-card">
       <div class="modal-header">
         <span class="modal-icon">📡</span>
-        <h3>Join on Local Hotspot / Wi-Fi</h3>
+        <h3>Offline Hotspot Play</h3>
         <button class="btn-close-modal" id="btnCloseLanModal">&times;</button>
       </div>
-      <div class="modal-body text-center">
-        <p class="lan-help-text">
-          Friends on the same Wi-Fi or Mobile Hotspot can scan this QR code to join immediately with <strong>zero mobile data</strong>!
+      <div class="modal-body">
+
+        <p class="lan-help-text" style="text-align:center; margin-bottom:16px;">
+          Play like <strong>Mini Militia</strong> — no internet needed!<br>
+          Everyone connects to the <strong>same Wi-Fi or Hotspot</strong> and opens this address.
         </p>
 
-        <div class="qr-container">
-          <img id="qrCodeImage" src="" alt="LAN QR Code" class="qr-image" />
+        <!-- URL Display Box -->
+        <div id="lanUrlDisplay" style="background:#0F1117; border-radius:10px; padding:14px 16px; margin-bottom:16px; display:flex; align-items:center; gap:10px;">
+          <span style="font-size:1.1rem;">🔗</span>
+          <span id="lanUrlText" style="font-family:'Courier New',monospace; font-size:0.95rem; font-weight:700; color:#2ECC71; flex:1; word-break:break-all;">Loading...</span>
+          <button id="btnCopyLanUrl" class="btn btn-sm btn-primary" style="flex-shrink:0;">Copy</button>
         </div>
 
-        <div class="lan-url-box">
-          <span class="lan-url-label">Direct Hotspot Link:</span>
-          <div class="lan-copy-row">
-            <input type="text" id="inputLanUrl" class="form-control lan-url-input" readonly />
-            <button id="btnCopyLanUrl" class="btn btn-primary">Copy</button>
-          </div>
-        </div>
+        <p id="lanModeNote" style="font-size:0.8rem; color:#8E95A5; text-align:center; margin-bottom:18px;"></p>
 
+        <!-- Step-by-step guide -->
         <div class="hotspot-steps">
-          <h4>📱 Quick Setup Guide:</h4>
+          <h4>📱 How to Play Offline (Like Mini Militia):</h4>
           <ol>
-            <li>Turn on <strong>Mobile Hotspot</strong> on Host phone/laptop.</li>
-            <li>Have friends connect to your Hotspot / Wi-Fi.</li>
-            <li>Scan the QR code above or open the link in any browser.</li>
+            <li><strong>Host:</strong> Turn on <strong>Mobile Hotspot</strong> (or use a shared Wi-Fi). Mobile data can be <strong>OFF</strong>.</li>
+            <li><strong>Everyone:</strong> Connect phones/tablets to the host's hotspot network.</li>
+            <li><strong>Everyone:</strong> Open a browser → type the address above → start playing!</li>
           </ol>
+          <p style="margin-top:12px; font-size:0.78rem; color:#8E95A5;">
+            💡 <strong>Tip:</strong> Install KATCHO as an app (📥 button above) for 1-tap access next time — no typing needed after the first visit!
+          </p>
         </div>
+
       </div>
     </div>
   </div>
