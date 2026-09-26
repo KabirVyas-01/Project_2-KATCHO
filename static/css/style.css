@@ -1665,3 +1665,175 @@ body {
   .btn-action-main, .btn-action-aux { width: 100%; }
   .reveal-table th, .reveal-table td { padding: 8px 10px; font-size: 0.82rem; }
 }
+
+/* ===================================================================
+   LAN ROOM DISCOVERY — Mini Militia Style
+   =================================================================== */
+.lan-rooms-section {
+  margin: 18px 0 14px;
+  border: 1.5px solid rgba(56, 103, 214, 0.3);
+  border-radius: var(--border-radius-md);
+  background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+  overflow: hidden;
+}
+
+.lan-rooms-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: rgba(56, 103, 214, 0.12);
+  border-bottom: 1px solid rgba(56, 103, 214, 0.2);
+}
+
+.lan-rooms-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #5B9BF0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.lan-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2ECC71;
+  animation: lanPulse 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes lanPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.lan-rooms-hint {
+  font-size: 0.7rem;
+  color: #5E6373;
+  font-weight: 600;
+}
+
+.lan-rooms-list {
+  padding: 10px;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lan-rooms-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 16px;
+  color: #5E6373;
+  font-size: 0.82rem;
+  text-align: center;
+  min-height: 80px;
+}
+
+.lan-rooms-empty span {
+  font-size: 1.8rem;
+  opacity: 0.5;
+}
+
+.lan-rooms-empty p {
+  line-height: 1.4;
+}
+
+/* Individual Room Card */
+.lan-room-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  animation: roomSlideIn 0.3s ease-out;
+}
+
+@keyframes roomSlideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.lan-room-card:hover {
+  background: rgba(56, 103, 214, 0.15);
+  border-color: rgba(56, 103, 214, 0.5);
+  transform: translateY(-1px);
+}
+
+.lan-room-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #3867D6, #5B9BF0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  font-weight: 800;
+  color: #fff;
+}
+
+.lan-room-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.lan-room-host {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lan-room-meta {
+  font-size: 0.75rem;
+  color: #8E95A5;
+  margin-top: 2px;
+}
+
+.lan-room-players {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lan-room-count {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #2ECC71;
+  white-space: nowrap;
+}
+
+.lan-room-join-btn {
+  padding: 7px 16px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2ED573, #20BF6B);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.8rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.lan-room-join-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(46, 213, 115, 0.4);
+}
+

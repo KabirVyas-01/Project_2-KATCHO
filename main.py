@@ -204,6 +204,27 @@ async def get_room_info(room_code: str):
     })
 
 
+@app.get("/api/rooms/discover")
+async def discover_rooms():
+    """Returns all active LOBBY-phase rooms for LAN room browser (Mini Militia style)."""
+    rooms_list = []
+    for code, room in gm.rooms.items():
+        # Only show rooms in LOBBY phase (joinable)
+        if room.phase.value != "LOBBY":
+            continue
+        host = room.players.get(room.host_id)
+        host_name = host.name if host else "Host"
+        connected = [p for p in room.players.values() if p.is_connected]
+        rooms_list.append({
+            "room_code": code,
+            "host_name": host_name,
+            "player_count": len(connected),
+            "max_players": 8,
+            "phase": room.phase.value,
+        })
+    return JSONResponse({"rooms": rooms_list})
+
+
 @app.websocket("/ws/{room_code}/{player_id}")
 async def websocket_endpoint(websocket: WebSocket, room_code: str, player_id: str):
     await websocket.accept()

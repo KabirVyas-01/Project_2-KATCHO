@@ -141,6 +141,17 @@
     lanModeNote: document.getElementById('lanModeNote'),
     btnCloseLanModal: document.getElementById('btnCloseLanModal'),
 
+    // LAN Room Discovery
+    lanRoomsSection: document.getElementById('lanRoomsSection'),
+    lanRoomsList: document.getElementById('lanRoomsList'),
+    lanRoomsEmpty: document.getElementById('lanRoomsEmpty'),
+    modalLanJoin: document.getElementById('modalLanJoin'),
+    lanJoinHostName: document.getElementById('lanJoinHostName'),
+    lanJoinHostName2: document.getElementById('lanJoinHostName2'),
+    lanJoinPlayerCount: document.getElementById('lanJoinPlayerCount'),
+    btnLanJoinConfirm: document.getElementById('btnLanJoinConfirm'),
+    btnLanJoinCancel: document.getElementById('btnLanJoinCancel'),
+
     // Install / Download PWA Modal Elements
     btnHeaderInstallApp: document.getElementById('btnHeaderInstallApp'),
     cardChoicePlayOnline: document.getElementById('cardChoicePlayOnline'),
@@ -235,6 +246,7 @@
     loadScratchpad();
     bindEvents();
     fetchLanInfo();
+    startLanRoomPolling();
 
     // Auto-host or auto-join from URL parameters (e.g. from Home page party room cards)
     const isHost = urlParams.get('host') === '1' || urlParams.get('host') === 'true' || urlParams.get('create') === '1';
@@ -842,6 +854,101 @@
   }
 
   // ===================================================================
+  // LAN ROOM DISCOVERY (Mini Militia style)
+  // ===================================================================
+  let lanPollInterval = null;
+  let pendingLanRoom = null; // room data user clicked on
+
+  function startLanRoomPolling() {
+    pollLanRooms(); // immediate first poll
+    lanPollInterval = setInterval(pollLanRooms, 4000);
+  }
+
+  function stopLanRoomPolling() {
+    if (lanPollInterval) {
+      clearInterval(lanPollInterval);
+      lanPollInterval = null;
+    }
+  }
+
+  async function pollLanRooms() {
+    // Only show when on the entry view and not in a room
+    if (roomCode) return;
+    try {
+      const res = await fetch('/api/rooms/discover');
+      const data = await res.json();
+      renderLanRooms(data.rooms || []);
+    } catch (e) {
+      // silently ignore
+    }
+  }
+
+  function renderLanRooms(rooms) {
+    if (!els.lanRoomsList) return;
+
+    // Filter out rooms where the local player is already the host
+    const filtered = rooms.filter(r => r.player_count > 0);
+
+    // Clear all existing room cards (keep empty state)
+    const existing = els.lanRoomsList.querySelectorAll('.lan-room-card');
+    existing.forEach(el => el.remove());
+
+    if (filtered.length === 0) {
+      if (els.lanRoomsEmpty) els.lanRoomsEmpty.style.display = 'flex';
+      return;
+    }
+
+    if (els.lanRoomsEmpty) els.lanRoomsEmpty.style.display = 'none';
+
+    filtered.forEach(room => {
+      const card = document.createElement('div');
+      card.className = 'lan-room-card';
+      const initial = (room.host_name || '?')[0].toUpperCase();
+      card.innerHTML = `
+        <div class="lan-room-avatar">${escapeHtml(initial)}</div>
+        <div class="lan-room-info">
+          <div class="lan-room-host">${escapeHtml(room.host_name)}'s Room</div>
+          <div class="lan-room-meta">Room Code: <strong>${escapeHtml(room.room_code)}</strong></div>
+        </div>
+        <div class="lan-room-players">
+          <span class="lan-room-count">👥 ${room.player_count}/${room.max_players}</span>
+        </div>
+        <button class="lan-room-join-btn" data-code="${escapeHtml(room.room_code)}" data-host="${escapeHtml(room.host_name)}" data-count="${room.player_count}" data-max="${room.max_players}">
+          Join
+        </button>
+      `;
+
+      // Clicking card or join button opens confirmation
+      card.addEventListener('click', (e) => {
+        const btn = e.target.closest('.lan-room-join-btn') || card.querySelector('.lan-room-join-btn');
+        if (!btn) return;
+        openLanJoinModal({
+          room_code: btn.dataset.code,
+          host_name: btn.dataset.host,
+          player_count: parseInt(btn.dataset.count),
+          max_players: parseInt(btn.dataset.max),
+        });
+      });
+
+      els.lanRoomsList.appendChild(card);
+    });
+  }
+
+  function openLanJoinModal(room) {
+    pendingLanRoom = room;
+    if (els.lanJoinHostName) els.lanJoinHostName.textContent = room.host_name;
+    if (els.lanJoinHostName2) els.lanJoinHostName2.textContent = room.host_name;
+    if (els.lanJoinPlayerCount) els.lanJoinPlayerCount.textContent = `${room.player_count} / ${room.max_players} players`;
+    if (els.modalLanJoin) els.modalLanJoin.classList.remove('hidden');
+    sounds.click();
+  }
+
+  function closeLanJoinModal() {
+    if (els.modalLanJoin) els.modalLanJoin.classList.add('hidden');
+    pendingLanRoom = null;
+  }
+
+  // ===================================================================
   // EVENT BINDINGS
   // ===================================================================
   function bindEvents() {
@@ -875,6 +982,8 @@
     // Create Room
     els.btnCreateRoom.addEventListener('click', () => {
       sounds.click();
+      stopLanRoomPolling();
+      if (els.lanRoomsSection) els.lanRoomsSection.style.display = 'none';
       const name = els.inputPlayerName.value.trim() || 'Host';
       localStorage.setItem('katcho_player_name', name);
       
@@ -887,6 +996,8 @@
     // Join Room
     els.btnJoinRoom.addEventListener('click', () => {
       sounds.click();
+      stopLanRoomPolling();
+      if (els.lanRoomsSection) els.lanRoomsSection.style.display = 'none';
       const name = els.inputPlayerName.value.trim() || 'Player';
       const code = els.inputRoomCode.value.trim().toUpperCase();
       if (!code) {
@@ -1096,6 +1207,31 @@
     els.btnCloseLanModal.addEventListener('click', () => {
       els.modalLanInfo.classList.add('hidden');
     });
+
+    // LAN Join Confirmation Modal
+    if (els.btnLanJoinConfirm) {
+      els.btnLanJoinConfirm.addEventListener('click', () => {
+        if (!pendingLanRoom) return;
+        sounds.click();
+        closeLanJoinModal();
+        stopLanRoomPolling();
+        // Hide LAN rooms section
+        if (els.lanRoomsSection) els.lanRoomsSection.style.display = 'none';
+        // Auto-fill room code and join
+        const name = els.inputPlayerName.value.trim() || 'Player';
+        const code = pendingLanRoom.room_code;
+        localStorage.setItem('katcho_player_name', name);
+        connectWebSocket(code, () => {
+          sendAction('join_room', { room_code: code, name });
+        });
+      });
+    }
+    if (els.btnLanJoinCancel) {
+      els.btnLanJoinCancel.addEventListener('click', () => {
+        sounds.click();
+        closeLanJoinModal();
+      });
+    }
 
     els.btnCopyLanUrl.addEventListener('click', () => {
       sounds.click();
