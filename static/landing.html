@@ -568,91 +568,261 @@
     }
 
     /* ============================
-       LAN / HOTSPOT BANNER
+       LAN / HOTSPOT PORTAL — Mini Militia Style
        ============================ */
-    .lan-banner {
-      background: var(--clr-surface);
-      border: 1px solid var(--clr-border-light);
+    .lan-portal-card {
+      background: linear-gradient(135deg, #0D1117 0%, #161B22 100%);
+      border: 1.5px solid rgba(56, 103, 214, 0.35);
       border-radius: var(--radius-lg);
-      padding: 20px 24px;
-      box-shadow: var(--shadow-card);
-      margin-bottom: 28px;
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      margin-bottom: 30px;
+      color: #fff;
     }
-    .lan-icon-wrap {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
+    .lan-portal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .lan-portal-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .lan-portal-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
       background: linear-gradient(135deg, #F39C12 0%, #E67E22 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
       color: #fff;
       font-size: 1.4rem;
+      box-shadow: 0 4px 12px rgba(243, 156, 18, 0.35);
     }
-    .lan-content { flex: 1; }
-    .lan-title-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 4px;
-    }
-    .lan-title {
+    .lan-portal-title {
       font-family: var(--font-display);
+      font-size: 1.25rem;
       font-weight: 700;
-      font-size: 1rem;
-      color: var(--clr-text);
-    }
-    .lan-badge {
-      font-size: 0.65rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      padding: 2px 8px;
-      border-radius: var(--radius-pill);
-      background: rgba(243,156,18,0.12);
-      color: #D68910;
-    }
-    .lan-desc {
-      font-size: 0.82rem;
-      color: var(--clr-text-secondary);
-      line-height: 1.6;
-      margin-bottom: 10px;
-    }
-    .lan-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--clr-accent);
-      cursor: pointer;
-    }
-    .lan-ip-box {
+      color: #fff;
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 10px;
-      padding: 8px 14px;
-      background: #1A1A2E;
-      border-radius: var(--radius-sm);
-      width: fit-content;
     }
-    .lan-ip-label {
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.5);
+    .lan-portal-badge {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 1px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      background: rgba(46, 204, 113, 0.15);
+      color: #2ECC71;
+      border: 1px solid rgba(46, 204, 113, 0.3);
     }
-    .lan-ip-value {
-      font-family: 'Courier New', monospace;
-      font-size: 0.88rem;
+    .lan-portal-sub {
+      font-size: 0.8rem;
+      color: #8E95A5;
+      margin-top: 2px;
+    }
+    .lan-portal-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-portal-refresh {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #E2E8F0;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-portal-refresh:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+    .btn-portal-host-lan {
+      background: linear-gradient(135deg, #C0392B, #E74C3C);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3);
+      transition: var(--transition);
+    }
+    .btn-portal-host-lan:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(192, 57, 43, 0.4);
+    }
+    .lan-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2ECC71;
+      animation: lanPulse 1.5s ease-in-out infinite;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    @keyframes lanPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.7); }
+    }
+    .lan-rooms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      min-height: 90px;
+    }
+    .lan-portal-room-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      animation: roomSlideIn 0.3s ease-out;
+    }
+    .lan-portal-room-card:hover {
+      background: rgba(56, 103, 214, 0.18);
+      border-color: rgba(56, 103, 214, 0.55);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+    }
+    .lan-room-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2C73D2, #1A5FB4);
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      text-transform: uppercase;
+    }
+    .lan-room-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .lan-room-host {
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .lan-room-meta {
+      font-size: 0.75rem;
+      color: #8E95A5;
+      margin-top: 2px;
+    }
+    .lan-room-meta strong {
+      color: #F39C12;
+      letter-spacing: 0.8px;
+    }
+    .lan-room-players {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .lan-room-count {
+      font-size: 0.78rem;
       font-weight: 700;
       color: #2ECC71;
+      background: rgba(46, 204, 113, 0.12);
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      display: inline-block;
+    }
+    .lan-room-join-btn {
+      margin-top: 6px;
+      background: #2C73D2;
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      display: block;
+      width: 100%;
+    }
+    .lan-room-join-btn:hover {
+      background: #1A5FB4;
+    }
+    .lan-portal-empty {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+      color: #8E95A5;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--radius-md);
+      border: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+    .lan-portal-empty span {
+      font-size: 2rem;
+      opacity: 0.6;
+    }
+    .lan-portal-empty p {
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+    .lan-portal-footer {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.78rem;
+      color: #8E95A5;
+    }
+    .lan-portal-tip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .lan-portal-guide-link {
+      color: #5B9BF0;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+    .lan-portal-guide-link:hover {
+      text-decoration: underline;
     }
 
     /* ============================
@@ -1415,23 +1585,57 @@
       </div>
     </div>
 
-    <!-- LAN / HOTSPOT BANNER -->
-    <div class="lan-banner animate-in delay-4">
-      <div class="lan-icon-wrap">
-        <span class="material-symbols-rounded">wifi_tethering</span>
-      </div>
-      <div class="lan-content">
-        <div class="lan-title-row">
-          <span class="lan-title">Local Hotspot / Offline LAN Mode</span>
-          <span class="lan-badge">Zero Data</span>
+    <!-- LAN / HOTSPOT ROOMS PORTAL (Mini Militia Style) -->
+    <div class="lan-portal-card animate-in delay-4" id="lanPortalCard">
+      <div class="lan-portal-header">
+        <div class="lan-portal-title-wrap">
+          <div class="lan-portal-icon">
+            <span class="material-symbols-rounded">wifi_tethering</span>
+          </div>
+          <div>
+            <div class="lan-portal-title">
+              <span>Hotspot / Wi-Fi LAN Portal</span>
+              <span class="lan-portal-badge">
+                <span class="lan-pulse-dot"></span>
+                LIVE RADAR
+              </span>
+            </div>
+            <p class="lan-portal-sub">
+              Mini Militia style offline multiplayer — discover and join nearby games on this hotspot with 1 tap (no link or QR needed)!
+            </p>
+          </div>
         </div>
-        <p class="lan-desc">
-          No cellular internet or mobile data? No problem. One player enables their mobile hotspot, others connect to it, and
-          everyone plays locally with zero lag and zero data consumption!
-        </p>
-        <a href="#" class="lan-link" id="linkShowLan">
-          <span class="material-symbols-rounded" style="font-size:16px;">info</span>
-          Setup Instructions &amp; Offline Guide ↗
+        <div class="lan-portal-actions">
+          <button type="button" class="btn-portal-refresh" id="btnLandingRefreshLan" title="Refresh local rooms">
+            <span class="material-symbols-rounded" style="font-size:16px;">refresh</span>
+            Scan Network
+          </button>
+          <button type="button" class="btn-portal-host-lan" id="btnLandingHostLan">
+            <span class="material-symbols-rounded" style="font-size:16px;">cell_tower</span>
+            Host on LAN
+          </button>
+        </div>
+      </div>
+
+      <!-- Discovered Rooms Grid -->
+      <div class="lan-rooms-grid" id="landingLanRoomsGrid">
+        <div class="lan-portal-empty" id="landingLanRoomsEmpty">
+          <span>📡</span>
+          <p>
+            <strong>Scanning hotspot / local Wi-Fi for active games...</strong><br>
+            Rooms hosted on this network appear here instantly.
+          </p>
+        </div>
+      </div>
+
+      <div class="lan-portal-footer">
+        <div class="lan-portal-tip">
+          <span>💡</span>
+          <span>Connected to the host's Wi-Fi / Hotspot? Rooms appear automatically — click <strong>Join</strong> to play!</span>
+        </div>
+        <a href="#" class="lan-portal-guide-link" id="linkShowLan">
+          <span class="material-symbols-rounded" style="font-size:15px;">help</span>
+          Hotspot Setup Guide
         </a>
       </div>
     </div>
@@ -1686,6 +1890,32 @@
         <div class="modal-footer-cta">
           <button type="button" class="btn-modal-action" id="btnModalCloseLan">
             Close Instructions
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAN ROOM JOIN CONFIRMATION MODAL (Mini Militia style) -->
+  <div class="landing-modal-overlay hidden" id="modalLanJoinLanding">
+    <div class="landing-modal" style="max-width:380px; text-align:center;">
+      <div class="landing-modal-header" style="justify-content:center; border-bottom:none; padding-bottom:0;">
+        <span class="material-symbols-rounded" style="color:#5B9BF0; font-size:3rem;">wifi_tethering</span>
+      </div>
+      <div class="landing-modal-body" style="padding-top:6px;">
+        <div style="font-size:0.72rem; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#5B9BF0; margin-bottom:6px;">Hotspot Room Found</div>
+        <h3 id="lanJoinHostNameLanding" style="font-family:var(--font-display); font-size:1.6rem; font-weight:700; color:var(--clr-text); margin-bottom:2px;">Host</h3>
+        <p style="color:var(--clr-text-secondary); font-size:0.85rem; margin-bottom:4px;">is hosting a match on this network</p>
+        <div id="lanJoinPlayerCountLanding" style="font-size:0.82rem; font-weight:700; color:#27AE60; margin-bottom:18px;">2 / 8 players</div>
+        <p style="color:var(--clr-text); font-size:0.92rem; margin-bottom:22px;">
+          Do you want to join <strong id="lanJoinHostName2Landing">Host</strong>'s room?
+        </p>
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <button type="button" id="btnLandingLanJoinConfirm" style="flex:1; padding:12px; border-radius:var(--radius-md); background:var(--clr-success); color:#fff; font-weight:800; font-size:0.92rem; border:none; cursor:pointer;">
+            ✅ Join Room
+          </button>
+          <button type="button" id="btnLandingLanJoinCancel" style="flex:1; padding:12px; border-radius:var(--radius-md); background:var(--clr-surface-alt); color:var(--clr-text); font-weight:700; font-size:0.92rem; border:1px solid var(--clr-border); cursor:pointer;">
+            Cancel
           </button>
         </div>
       </div>
@@ -2044,9 +2274,148 @@
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.feature-card, .action-card, .lan-banner, .rules-section, .party-rooms-header').forEach(el => {
+    document.querySelectorAll('.feature-card, .action-card, .lan-portal-card, .rules-section, .party-rooms-header').forEach(el => {
       observer.observe(el);
     });
+
+    // ============================================
+    // LAN / HOTSPOT ROOMS RADAR (Mini Militia style)
+    // ============================================
+    const landingLanGrid = document.getElementById('landingLanRoomsGrid');
+    const landingLanEmpty = document.getElementById('landingLanRoomsEmpty');
+    const btnLandingRefreshLan = document.getElementById('btnLandingRefreshLan');
+    const btnLandingHostLan = document.getElementById('btnLandingHostLan');
+    const modalLanJoinLanding = document.getElementById('modalLanJoinLanding');
+    const lanJoinHostNameLanding = document.getElementById('lanJoinHostNameLanding');
+    const lanJoinHostName2Landing = document.getElementById('lanJoinHostName2Landing');
+    const lanJoinPlayerCountLanding = document.getElementById('lanJoinPlayerCountLanding');
+    const btnLandingLanJoinConfirm = document.getElementById('btnLandingLanJoinConfirm');
+    const btnLandingLanJoinCancel = document.getElementById('btnLandingLanJoinCancel');
+
+    let pendingLandingRoom = null;
+    let landingLanPollTimer = null;
+
+    function escapeHtml(str) {
+      const d = document.createElement('div');
+      d.textContent = str || '';
+      return d.innerHTML;
+    }
+
+    async function scanLandingLanRooms() {
+      try {
+        const res = await fetch('/api/rooms/discover');
+        const data = await res.json();
+        renderLandingLanRooms(data.rooms || []);
+      } catch (err) {
+        // Silently retain current state on network flicker
+      }
+    }
+
+    function renderLandingLanRooms(rooms) {
+      if (!landingLanGrid) return;
+
+      const validRooms = rooms.filter(r => r.player_count > 0);
+      
+      // Clear out previous cards (retain empty state)
+      const existing = landingLanGrid.querySelectorAll('.lan-portal-room-card');
+      existing.forEach(card => card.remove());
+
+      if (validRooms.length === 0) {
+        if (landingLanEmpty) landingLanEmpty.style.display = 'flex';
+        return;
+      }
+
+      if (landingLanEmpty) landingLanEmpty.style.display = 'none';
+
+      validRooms.forEach(room => {
+        const card = document.createElement('div');
+        card.className = 'lan-portal-room-card';
+        const initial = (room.host_name || '?')[0].toUpperCase();
+        card.innerHTML = `
+          <div class="lan-room-avatar">${escapeHtml(initial)}</div>
+          <div class="lan-room-info">
+            <div class="lan-room-host">${escapeHtml(room.host_name)}'s Game</div>
+            <div class="lan-room-meta">Code: <strong>${escapeHtml(room.room_code)}</strong> • Phase: ${escapeHtml(room.phase)}</div>
+          </div>
+          <div class="lan-room-players">
+            <span class="lan-room-count">👥 ${room.player_count}/${room.max_players}</span>
+            <button type="button" class="lan-room-join-btn" data-code="${escapeHtml(room.room_code)}" data-host="${escapeHtml(room.host_name)}" data-count="${room.player_count}" data-max="${room.max_players}">
+              Join ↗
+            </button>
+          </div>
+        `;
+
+        card.addEventListener('click', (e) => {
+          const btn = e.target.closest('.lan-room-join-btn') || card.querySelector('.lan-room-join-btn');
+          if (!btn) return;
+          openLandingLanJoinModal({
+            room_code: btn.dataset.code,
+            host_name: btn.dataset.host,
+            player_count: parseInt(btn.dataset.count, 10),
+            max_players: parseInt(btn.dataset.max, 10),
+          });
+        });
+
+        landingLanGrid.appendChild(card);
+      });
+    }
+
+    function openLandingLanJoinModal(room) {
+      pendingLandingRoom = room;
+      if (lanJoinHostNameLanding) lanJoinHostNameLanding.textContent = room.host_name;
+      if (lanJoinHostName2Landing) lanJoinHostName2Landing.textContent = room.host_name;
+      if (lanJoinPlayerCountLanding) lanJoinPlayerCountLanding.textContent = `${room.player_count} / ${room.max_players} players connected`;
+      if (modalLanJoinLanding) {
+        modalLanJoinLanding.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeLandingLanJoinModal() {
+      if (modalLanJoinLanding) {
+        modalLanJoinLanding.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+      pendingLandingRoom = null;
+    }
+
+    if (btnLandingLanJoinCancel) {
+      btnLandingLanJoinCancel.addEventListener('click', closeLandingLanJoinModal);
+    }
+
+    if (btnLandingLanJoinConfirm) {
+      btnLandingLanJoinConfirm.addEventListener('click', () => {
+        if (!pendingLandingRoom) return;
+        const name = codenameInput.value.trim() || 'Player';
+        localStorage.setItem('katcho_player_name', name);
+        sessionStorage.setItem('katcho_player_name', name);
+        const code = pendingLandingRoom.room_code;
+        closeLandingLanJoinModal();
+        window.location.href = `/play?join=${encodeURIComponent(code)}&name=${encodeURIComponent(name)}&auto=1`;
+      });
+    }
+
+    if (btnLandingRefreshLan) {
+      btnLandingRefreshLan.addEventListener('click', () => {
+        btnLandingRefreshLan.style.opacity = '0.6';
+        scanLandingLanRooms().finally(() => {
+          setTimeout(() => { btnLandingRefreshLan.style.opacity = '1'; }, 300);
+        });
+      });
+    }
+
+    if (btnLandingHostLan) {
+      btnLandingHostLan.addEventListener('click', () => {
+        const name = codenameInput.value.trim() || 'Host';
+        localStorage.setItem('katcho_player_name', name);
+        sessionStorage.setItem('katcho_player_name', name);
+        window.location.href = `/play?host=1&name=${encodeURIComponent(name)}&mode=${selectedMode}`;
+      });
+    }
+
+    // Start auto-scanning for LAN rooms every 3.5 seconds
+    scanLandingLanRooms();
+    landingLanPollTimer = setInterval(scanLandingLanRooms, 3500);
 
     // --- PWA Download & Install Handling ---
     let deferredInstallPrompt = null;

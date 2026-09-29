@@ -6,6 +6,9 @@
 
 ---
 
+## KATCHO's live url link: https://katcho.onrender.com
+
+
 ## ✨ Key Features
 
 - **Brand Header**: Prominently displays `KATCHO` and `Created by KABIR VYAS`.
@@ -14,7 +17,7 @@
     - **1 Word Per Player** (Standard mode)
     - **2 Words Per Player (Double Word Mode)**: Each player submits 2 secret words one after the other. Gives smaller groups a richer flash pool (e.g. 4 players = 8 words) and deeper multi-word deduction gameplay!
 - **Dual-Mode Networking**:
-  - **Local Hotspot / LAN Mode (Mini Militia style)**: Host turns on a mobile hotspot; friends connect and scan the auto-generated QR code to play with **zero internet / mobile data usage**.
+  - **Local Hotspot / LAN Wi-Fi Portal (Mini Militia style)**: Host turns on mobile hotspot (or shared Wi-Fi). Friends open the game and active rooms on the network are automatically discovered on the **Hotspot / LAN Portal Radar** — tap once to join with **zero mobile data / internet**, no QR codes or link sharing needed!
   - **Online Room Mode (Skribbl.io style)**: 4-letter alphanumeric room codes for hosting and joining over the web.
 - **Skribbl.io-Inspired Layout**:
   - **Top Stage**: Clean presentation board for Lobby info, 2-Pass synchronized Word Flash sequence, live public announcements, and victory reveal table.
@@ -52,14 +55,13 @@ By default, the server starts on port `8000` and displays:
 
 ---
 
-## 📱 Playing on Wi-Fi Hotspot (Zero Mobile Data)
+## 📱 Playing on Wi-Fi Hotspot (Mini Militia Portal — Zero Mobile Data)
 
-1. Turn on **Mobile Hotspot** on the Host's laptop or mobile phone.
+1. Turn on **Mobile Hotspot** on the Host's laptop or mobile phone (Mobile cellular data can be **OFF**).
 2. Have all friends connect their phones to that Hotspot / Wi-Fi network.
 3. Start the server on the Host device: `python main.py`.
-4. Friends can either:
-   - Scan the **QR Code** displayed on the host's screen or clicking the 📱 icon.
-   - Type the LAN URL (e.g. `http://192.168.43.1:8000`) into their mobile browser.
+4. Friends open the game and see the host's room in the **Hotspot / LAN Portal Radar** automatically.
+5. Tap **Join** — instantly in the lobby with no QR code or link required!
 
 ---
 
