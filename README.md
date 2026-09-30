@@ -55,13 +55,25 @@ By default, the server starts on port `8000` and displays:
 
 ---
 
-## 📱 Playing on Wi-Fi Hotspot (Mini Militia Portal — Zero Mobile Data)
+## 📱 Playing on Wi-Fi Hotspot / LAN (Mini Militia Portal — Zero Mobile Data)
 
-1. Turn on **Mobile Hotspot** on the Host's laptop or mobile phone (Mobile cellular data can be **OFF**).
-2. Have all friends connect their phones to that Hotspot / Wi-Fi network.
-3. Start the server on the Host device: `python main.py`.
-4. Friends open the game and see the host's room in the **Hotspot / LAN Portal Radar** automatically.
-5. Tap **Join** — instantly in the lobby with no QR code or link required!
+You can play KATCHO locally without an active internet connection using a mobile hotspot or shared Wi-Fi network.
+
+### 💻 Option A: Hosting from a Laptop
+1. Turn on **Mobile Hotspot** on the Host's laptop (e.g., in Windows: Settings > Network & Internet > Mobile hotspot).
+2. Have all players connect their phones or laptops to that laptop's Hotspot Wi-Fi network.
+3. Start the server on the laptop by running: `python main.py`.
+4. The terminal will display your **LAN / Hotspot URL** (e.g., `http://192.168.137.1:8000`).
+5. **Host:** Open your browser and go to `http://localhost:8000` to create a room.
+6. **Players:** Open your browser and go to the host's **LAN / Hotspot URL**. Active rooms are automatically discovered on the **Hotspot / LAN Portal Radar**. Tap **Join**!
+
+### 📱 Option B: Hosting from a Mobile Phone
+1. Turn on **Mobile Hotspot** on the Host's phone (Mobile cellular data can be **OFF**).
+2. Have all players connect their devices to your phone's Hotspot network.
+3. Use a Python environment app on your phone (like Termux on Android or a-Shell on iOS) to run: `python main.py`.
+4. The terminal will output your **LAN / Hotspot URL** (e.g., `http://192.168.43.1:8000`).
+5. **Host & Players:** Open your web browser and navigate to that URL.
+6. Active rooms will appear on the **Hotspot / LAN Portal Radar**. Tap **Join** to enter the lobby instantly!
 
 ---
 
