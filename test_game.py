@@ -4,7 +4,6 @@ Automated Unit Tests for KATCHO (Including 1 vs 2 Words Mode)
 
 import unittest
 from game_manager import GameManager, GamePhase
-from main import get_local_ip, generate_qr_base64
 
 
 class TestKatchoGameManager(unittest.TestCase):

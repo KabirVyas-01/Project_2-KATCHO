@@ -6,7 +6,7 @@
 - **Product Type:** Real-Time Multiplayer Social Deduction & Memory Party Game
 - **Platform:** Progressive Web App (PWA) / Responsive Web (Mobile, Tablet, Desktop) & Local Offline LAN/Hotspot
 - **Core Technology Stack:**
-  - **Backend:** Python 3, FastAPI, WebSockets (`/ws/{room_code}/{player_id}`), Uvicorn, QR Code generation (PIL)
+  - **Backend:** Python 3, FastAPI, WebSockets (`/ws/{room_code}/{player_id}`), Uvicorn, Local LAN Network Discovery
   - **Frontend:** Vanilla JavaScript (ES6+), WebSockets Client, Web Audio API Synthesizer, CSS3 Custom Properties, Responsive Flex/Grid
   - **PWA:** Web App Manifest (`manifest.json`), Service Worker (`service-worker.js`), LocalStorage offline caching
 
@@ -21,9 +21,9 @@
 
 ## 3. User Personas
 1. **The Game Host (Organizer):**
-   - Wants to start a room in 3 seconds, configure rules (1 vs 2 words mode), and share a 4-letter room PIN or QR code with friends in the room or online.
+   - Wants to start a room in 3 seconds, configure rules (1 vs 2 words mode), and share a 4-letter room PIN or direct LAN address with friends in the room or online.
 2. **The Guest Player:**
-   - Joins on their phone via QR code scan or PIN, submits secret words, watches the flash sequence, and makes deductions during their turn.
+   - Joins on their phone via LAN auto-discovery or room PIN, submits secret words, watches the flash sequence, and makes deductions during their turn.
 3. **The Offline Group:**
    - Friends hanging out outdoors or at campus with no Wi-Fi/mobile data, connecting directly to the host's mobile hotspot.
 

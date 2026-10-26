@@ -117,38 +117,15 @@ NO_CACHE_HEADERS = {
 
 
 @app.get("/")
-async def get_root(play: Optional[str] = None, view: Optional[str] = None):
-    """Serves the Home landing page by default, or game SPA if requested."""
-    if play or view in ("app", "game"):
-        index_file = os.path.join(STATIC_DIR, "index.html")
-        if os.path.exists(index_file):
-            return FileResponse(index_file, headers=NO_CACHE_HEADERS)
-    landing_file = os.path.join(STATIC_DIR, "landing.html")
-    if os.path.exists(landing_file):
-        return FileResponse(landing_file, headers=NO_CACHE_HEADERS)
-    index_file = os.path.join(STATIC_DIR, "index.html")
-    if os.path.exists(index_file):
-        return FileResponse(index_file, headers=NO_CACHE_HEADERS)
-    return HTMLResponse("<h1>KATCHO game UI not found.</h1>", headers=NO_CACHE_HEADERS)
-
-
 @app.get("/play")
+@app.get("/home")
+@app.get("/landing")
 async def get_game():
     """Serves the main KATCHO interactive application SPA."""
     index_file = os.path.join(STATIC_DIR, "index.html")
     if os.path.exists(index_file):
         return FileResponse(index_file, headers=NO_CACHE_HEADERS)
     return HTMLResponse("<h1>KATCHO game UI not found. Please add static/index.html</h1>", headers=NO_CACHE_HEADERS)
-
-
-@app.get("/home")
-@app.get("/landing")
-async def get_landing():
-    """Serves the KATCHO Home & Pre-Game Lobby landing page."""
-    landing_file = os.path.join(STATIC_DIR, "landing.html")
-    if os.path.exists(landing_file):
-        return FileResponse(landing_file, headers=NO_CACHE_HEADERS)
-    return await get_game()
 
 
 @app.get("/manifest.json")

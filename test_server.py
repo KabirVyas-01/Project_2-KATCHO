@@ -24,8 +24,7 @@ class TestKatchoServer(unittest.TestCase):
         data = response.json()
         self.assertIn("local_ip", data)
         self.assertIn("lan_url", data)
-        self.assertIn("qr_data_url", data)
-        self.assertTrue(data["qr_data_url"].startswith("data:image/png;base64,"))
+        self.assertIn("all_ips", data)
         self.assertEqual(data["author"], "KABIR VYAS")
 
     def test_websocket_create_and_join_flow(self):
