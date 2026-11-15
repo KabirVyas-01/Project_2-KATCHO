@@ -78,108 +78,16 @@
       <!-- VIEW 1: JOIN / HOST LOBBY ENTRY SCREEN                  -->
       <!-- ======================================================== -->
       <section id="viewEntry" class="view-panel active">
-        <div class="card entry-card">
-          
-          <div class="entry-hero">
-            <div class="game-mascot">🕵️‍♂️💡</div>
-            <h2 class="entry-title">Secret Words. Sharp Memories. Clever Deducers.</h2>
-            <p class="entry-tagline">Submit secret words, memorize the flash sequence, and deduce who wrote what!</p>
-          </div>
-
-          <!-- DUAL OPTION HERO BANNER: PLAY ONLINE vs DOWNLOAD APP -->
-          <div class="play-choice-box">
-            <div class="choice-card choice-online active" id="cardChoicePlayOnline">
-              <div class="choice-icon">🌐</div>
-              <div class="choice-content">
-                <h4>Play Online Instantly</h4>
-                <p>No download required. Play right here in your browser.</p>
-              </div>
-              <span class="choice-tag">Active</span>
-            </div>
-
-            <div class="choice-card choice-download" id="cardChoiceDownloadApp">
-              <div class="choice-icon">📥</div>
-              <div class="choice-content">
-                <h4>Download / Install App</h4>
-                <p>1-tap install on Phone, Tablet, or PC. 100% Safe & Zero Permissions.</p>
-              </div>
-              <button class="btn btn-sm btn-outline-primary" id="btnQuickInstall">Install</button>
-            </div>
-          </div>
-
-          <!-- Name Input -->
-          <div class="form-group">
-            <label for="inputPlayerName" class="form-label">YOUR DISPLAY NAME</label>
-            <input 
-              type="text" 
-              id="inputPlayerName" 
-              class="form-control text-center bold-input" 
-              placeholder="e.g. Maverick, Sherlock" 
-              maxlength="18" 
-              autocomplete="nickname"
-            />
-          </div>
-
-          <!-- Entry Action Tabs -->
-          <div class="entry-actions-grid">
-            
-            <!-- Host Game Box -->
-            <div class="action-box">
-              <h3>Create Game</h3>
-              <p>Host a match for friends on your Wi-Fi hotspot or online.</p>
-              <button id="btnCreateRoom" class="btn btn-primary btn-block btn-lg pulse-glow">
-                🎮 Host New Room
-              </button>
-            </div>
-
-            <div class="divider-or"><span>OR</span></div>
-
-            <!-- Join Game Box -->
-            <div class="action-box">
-              <h3>Join Game</h3>
-              <p>Enter a 4-letter room code shared by your host.</p>
-              <div class="join-input-wrap">
-                <input 
-                  type="text" 
-                  id="inputRoomCode" 
-                  class="form-control text-center code-input" 
-                  placeholder="CODE" 
-                  maxlength="5"
-                />
-                <button id="btnJoinRoom" class="btn btn-success btn-block btn-lg">
-                  🚀 Join Room
-                </button>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- ===================================================== -->
-          <!-- LAN / HOTSPOT WI-FI PORTAL (Mini Militia style)       -->
-          <!-- ===================================================== -->
-          <div class="lan-rooms-section" id="lanRoomsSection">
-            <div class="lan-rooms-header">
-              <span class="lan-rooms-title">
-                <span class="lan-pulse-dot"></span>
-                Hotspot / LAN Rooms (Mini Militia Style)
-              </span>
-              <span class="lan-rooms-hint">Auto-scanning network...</span>
-            </div>
-            <div id="lanRoomsList" class="lan-rooms-list">
-              <div class="lan-rooms-empty" id="lanRoomsEmpty">
-                <span>📡</span>
-                <p><strong>Scanning hotspot / Wi-Fi...</strong><br>Games hosted on this network appear here. Tap to join instantly without typing a code!</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Hotspot Connection Banner -->
-          <div class="lan-banner" id="lanBannerPreview">
-            <div class="lan-banner-icon">📡</div>
-            <div class="lan-banner-text">
-              <strong>Hotspot LAN Play:</strong> Connect phones to the same Wi-Fi or mobile hotspot. 
-              <a href="#" id="linkOpenLanFromEntry">Hotspot Setup Guide</a>
-            </div>
+        <div class="card entry-card" style="text-align:center; padding: 48px 24px; max-width: 440px; margin: 40px auto; border-radius: 16px;">
+          <div style="font-size: 3.2rem; margin-bottom: 16px;">🕵️‍♂️⚡</div>
+          <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.6rem; margin-bottom: 8px;">Connecting to Room...</h2>
+          <p style="color: #8E95A5; font-size: 0.95rem; margin-bottom: 24px;" id="connectingStatusMsg">
+            Joining room and synchronizing game state...
+          </p>
+          <div>
+            <a href="/" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; font-size: 0.9rem; border-radius: 100px; text-decoration: none; font-weight: 700;">
+              ← Back to Home
+            </a>
           </div>
         </div>
       </section>

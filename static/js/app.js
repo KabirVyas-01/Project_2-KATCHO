@@ -253,23 +253,19 @@
     const isAutoJoin = urlParams.get('auto') === '1' || urlParams.get('join') !== null;
     const requestedMode = parseInt(urlParams.get('mode') || '0', 10);
 
-    if (isHost && els.btnCreateRoom) {
+    if (isHost) {
       setTimeout(() => {
-        els.btnCreateRoom.click();
-        if (requestedMode === 1 || requestedMode === 2) {
-          const checkModeTimer = setInterval(() => {
-            if (roomCode && ws && ws.readyState === WebSocket.OPEN) {
-              clearInterval(checkModeTimer);
-              sendAction('set_word_mode', { words_per_player: requestedMode });
-            }
-          }, 250);
-          setTimeout(() => clearInterval(checkModeTimer), 4000);
-        }
+        const name = paramName || sessionStorage.getItem('katcho_player_name') || 'Host';
+        hostNewRoom(name, requestedMode);
       }, 150);
-    } else if (isAutoJoin && paramRoom && els.btnJoinRoom) {
+    } else if (paramRoom) {
       setTimeout(() => {
-        els.btnJoinRoom.click();
+        const name = paramName || sessionStorage.getItem('katcho_player_name') || 'Player';
+        joinExistingRoom(paramRoom, name);
       }, 150);
+    } else {
+      // If someone visits /play directly with no room and not hosting, return to home
+      window.location.href = '/';
     }
   }
 
@@ -411,6 +407,11 @@
     if (data.type === 'error') {
       showToast(data.message, 'error');
       sounds.error();
+      if (!roomCode || (els.viewGame && els.viewGame.classList.contains('hidden'))) {
+        setTimeout(() => {
+          window.location.href = '/?error=' + encodeURIComponent(data.message);
+        }, 1400);
+      }
       return;
     }
 
@@ -951,14 +952,53 @@
   // ===================================================================
   // EVENT BINDINGS
   // ===================================================================
+  function hostNewRoom(name, mode) {
+    sounds.click();
+    stopLanRoomPolling();
+    const playerName = (name || sessionStorage.getItem('katcho_player_name') || 'Host').trim();
+    localStorage.setItem('katcho_player_name', playerName);
+    sessionStorage.setItem('katcho_player_name', playerName);
+
+    const tempCode = 'CREATE_' + Math.random().toString(36).substr(2, 4).toUpperCase();
+    connectWebSocket(tempCode, () => {
+      sendAction('create_room', { name: playerName });
+      if (mode === 1 || mode === 2) {
+        const checkModeTimer = setInterval(() => {
+          if (roomCode && ws && ws.readyState === WebSocket.OPEN) {
+            clearInterval(checkModeTimer);
+            sendAction('set_word_mode', { words_per_player: mode });
+          }
+        }, 250);
+        setTimeout(() => clearInterval(checkModeTimer), 4000);
+      }
+    });
+  }
+
+  function joinExistingRoom(code, name) {
+    sounds.click();
+    stopLanRoomPolling();
+    const playerName = (name || sessionStorage.getItem('katcho_player_name') || 'Player').trim();
+    const room = (code || '').trim().toUpperCase();
+    if (!room) {
+      window.location.href = '/?error=' + encodeURIComponent('Please enter a room code');
+      return;
+    }
+    localStorage.setItem('katcho_player_name', playerName);
+    sessionStorage.setItem('katcho_player_name', playerName);
+
+    connectWebSocket(room, () => {
+      sendAction('join_room', { room_code: room, name: playerName });
+    });
+  }
+
   function bindEvents() {
     // Player Name input
-    els.inputPlayerName.addEventListener('input', () => {
+    if (els.inputPlayerName) els.inputPlayerName.addEventListener('input', () => {
       const name = els.inputPlayerName.value.trim();
       sessionStorage.setItem('katcho_player_name', name);
       localStorage.setItem('katcho_player_name', name);
     });
-    els.inputPlayerName.addEventListener('keydown', (e) => {
+    if (els.inputPlayerName) els.inputPlayerName.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         const roomVal = els.inputRoomCode ? els.inputRoomCode.value.trim() : '';
         if (roomVal.length >= 4) {
@@ -970,17 +1010,17 @@
     });
 
     // Room Code input
-    els.inputRoomCode.addEventListener('input', () => {
+    if (els.inputRoomCode) els.inputRoomCode.addEventListener('input', () => {
       els.inputRoomCode.value = els.inputRoomCode.value.toUpperCase();
     });
-    els.inputRoomCode.addEventListener('keydown', (e) => {
+    if (els.inputRoomCode) els.inputRoomCode.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         els.btnJoinRoom.click();
       }
     });
 
     // Create Room
-    els.btnCreateRoom.addEventListener('click', () => {
+    if (els.btnCreateRoom) els.btnCreateRoom.addEventListener('click', () => {
       sounds.click();
       stopLanRoomPolling();
       if (els.lanRoomsSection) els.lanRoomsSection.style.display = 'none';
@@ -994,7 +1034,7 @@
     });
 
     // Join Room
-    els.btnJoinRoom.addEventListener('click', () => {
+    if (els.btnJoinRoom) els.btnJoinRoom.addEventListener('click', () => {
       sounds.click();
       stopLanRoomPolling();
       if (els.lanRoomsSection) els.lanRoomsSection.style.display = 'none';
@@ -1275,7 +1315,7 @@
       els.btnHeaderInstallApp.addEventListener('click', openInstallModal);
     }
     if (els.cardChoiceDownloadApp) {
-      els.cardChoiceDownloadApp.addEventListener('click', openInstallModal);
+      if (els.cardChoiceDownloadApp) els.cardChoiceDownloadApp.addEventListener('click', openInstallModal);
     }
     if (els.btnQuickInstall) {
       els.btnQuickInstall.addEventListener('click', (e) => {
@@ -1285,7 +1325,7 @@
     }
 
     if (els.cardChoicePlayOnline) {
-      els.cardChoicePlayOnline.addEventListener('click', () => {
+      if (els.cardChoicePlayOnline) els.cardChoicePlayOnline.addEventListener('click', () => {
         sounds.click();
         els.cardChoicePlayOnline.classList.add('active');
         els.inputPlayerName.focus();

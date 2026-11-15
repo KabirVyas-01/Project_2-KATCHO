@@ -2031,6 +2031,15 @@
       }, 3000);
     }
 
+
+    // Check for error parameter from redirect
+    const urlParamsOnLoad = new URLSearchParams(window.location.search);
+    const initialError = urlParamsOnLoad.get('error');
+    if (initialError) {
+      showLandingToast(initialError);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
     // --- Load saved codename from storage ---
     const codenameInput = document.getElementById('inputCodename');
     const savedName = sessionStorage.getItem('katcho_player_name') || localStorage.getItem('katcho_player_name');
@@ -2104,7 +2113,7 @@
     });
 
     // --- Join Party Room ---
-    document.getElementById('btnJoinRoom').addEventListener('click', () => {
+    document.getElementById('btnJoinRoom').addEventListener('click', async () => {
       const code = Array.from(pinInputs).map(i => i.value).join('').toUpperCase();
       if (code.length < 4) {
         showLandingToast('Please enter a valid 4-character room code.');
@@ -2114,6 +2123,33 @@
       const name = codenameInput.value.trim() || 'Player';
       localStorage.setItem('katcho_player_name', name);
       sessionStorage.setItem('katcho_player_name', name);
+
+      const btn = document.getElementById('btnJoinRoom');
+      const origHtml = btn.innerHTML;
+      btn.innerHTML = '<span class="material-symbols-rounded" style="font-size:20px;">sync</span> Checking...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(`/api/rooms/${code}`);
+        if (!res.ok) {
+          showLandingToast(`Room "${code}" not found. Please verify the code!`);
+          btn.innerHTML = origHtml;
+          btn.disabled = false;
+          pinInputs.forEach(i => i.value = '');
+          pinInputs[0].focus();
+          return;
+        }
+        const data = await res.json();
+        if (data.phase !== 'LOBBY') {
+          showLandingToast(`Room "${code}" is already in a match!`);
+          btn.innerHTML = origHtml;
+          btn.disabled = false;
+          return;
+        }
+      } catch (e) {
+        console.warn('Room check error:', e);
+      }
+
       // Navigate to game page with join parameters for instant room entry
       window.location.href = `/play?join=${encodeURIComponent(code)}&name=${encodeURIComponent(name)}&auto=1`;
     });

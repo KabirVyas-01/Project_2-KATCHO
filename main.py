@@ -192,18 +192,6 @@ async def get_lan_info(port: int = 8000):
     })
 
 
-@app.get("/api/rooms/{room_code}")
-async def get_room_info(room_code: str):
-    room = gm.get_room(room_code)
-    if not room:
-        raise HTTPException(status_code=404, detail="Room not found")
-    return JSONResponse({
-        "room_code": room.code,
-        "phase": room.phase.value,
-        "player_count": len(room.players),
-    })
-
-
 @app.get("/api/rooms/discover")
 async def discover_rooms():
     """Returns all active LOBBY-phase rooms for LAN room browser (Mini Militia style)."""
@@ -223,6 +211,18 @@ async def discover_rooms():
             "phase": room.phase.value,
         })
     return JSONResponse({"rooms": rooms_list})
+
+
+@app.get("/api/rooms/{room_code}")
+async def get_room_info(room_code: str):
+    room = gm.get_room(room_code)
+    if not room:
+        raise HTTPException(status_code=404, detail="Room not found")
+    return JSONResponse({
+        "room_code": room.code,
+        "phase": room.phase.value,
+        "player_count": len(room.players),
+    })
 
 
 @app.websocket("/ws/{room_code}/{player_id}")
