@@ -76,6 +76,35 @@ You can play KATCHO locally without an active internet connection using a mobile
 6. Active rooms will appear on the **Hotspot / LAN Portal Radar**. Tap **Join** to enter the lobby instantly!
 
 ---
+ 
+## Offline Hotspot / LAN Mode: Why It's Still Pending
+ 
+The goal is a "Mini Militia" experience: friends join the same Wi-Fi hotspot, tap a room, and play with **zero mobile data**. It sounds small, but a browser game is not a native app, and several problems stack up.
+ 
+### 1. Someone has to be the server
+Online play runs on a hosted server. Offline play needs one player's device to *be* the server. Katcho's backend is Python, and phones can't run it normally. Today the host would need a laptop, or a phone with Termux or a-Shell, which is far too much setup for a casual party game.
+ 
+### 2. Browsers can't discover rooms on their own
+Native apps find nearby games using UDP broadcast or mDNS. A web page has no access to either. That means a true auto-discovery "radar" isn't possible from the browser alone: a player must already know the host's address before the page can show any rooms.
+ 
+### 3. The address changes every time
+Hotspots hand out different IPs depending on the device (Android, iPhone, and Windows all differ), so there's no fixed link to share. Typing `192.168.x.x:8000` on a phone in a noisy room is a poor experience.
+ 
+### 4. The online site can't talk to a local host
+The live site is served over HTTPS. Browsers block an HTTPS page from calling an insecure `http://192.168...` server (mixed content), so the hosted site can't simply scan for or connect to a LAN host. Offline play has to be served by the host itself.
+ 
+### 5. No HTTPS on a local network
+Pages served from a plain local IP aren't a "secure context", so features such as the service worker and PWA install **don't work** there. The offline experience can't be an installed app unless extra certificate work is done.
+ 
+### 6. Networks and firewalls get in the way
+- The host's firewall often blocks incoming connections until the user allows Python on private networks.
+- Many college and café Wi-Fi networks use client isolation, so devices can't see each other at all. Only a personal hotspot is reliable.
+- Hotspot behavior differs between Android, iOS, and Windows.
+  
+### 7. Everything must work with no internet
+No CDN scripts, no web fonts, no remote assets. Every file has to be served by the host. Sound is already handled (it's synthesized, not downloaded), but the rest of the frontend must be audited and bundled.
+ 
+---
 
 ## 🕹️ Game Rules & State Flow
 
